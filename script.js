@@ -1800,4 +1800,4 @@ function savePrinterSettings() {
     }
 
     showAlert("Printer settings saved successfully!");
-        }
+}
