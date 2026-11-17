@@ -942,10 +942,10 @@ body * {
 
 .transaction-actions button {
     border: none;
-    padding: 11px 13px;
-    border-radius: 9px;
-    font-size: 12px;
-    font-weight: bold;
+    padding: 7px 9px;
+    border-radius: 7px;
+    font-size: 10px;
+    font-weight: 600;
     cursor: pointer;
 }
 
@@ -977,6 +977,6 @@ body * {
 @media (max-width: 480px) {
     .transaction-actions button {
         flex: 1 1 100%;
-        padding: 12px;
+        padding: 8px;
     }
 }
