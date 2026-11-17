@@ -768,7 +768,6 @@ function renderSalesHistory(searchTerm = "") {
         </div>
     </div>
 `).join("");
-    
 }
 
 function filterSalesHistory() {
