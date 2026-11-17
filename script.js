@@ -1689,6 +1689,12 @@ if (!product) {
 const name = prompt("Product name:", product.name);
 if (name === null) return;
 
+const costPrice = prompt(
+    "Product cost price:",
+    product.cost_price ?? 0
+);
+if (costPrice === null) return;
+
 const price = prompt("Selling price:", product.price);
 if (price === null) return;
 
@@ -1696,15 +1702,15 @@ const stock = prompt("Available stock:", product.stock);
 if (stock === null) return;
 
 const cleanName = name.trim();
+const cleanCostPrice = Number(costPrice);
 const cleanPrice = Number(price);
 const cleanStock = Number(stock);
 
 if (
     !cleanName ||
-    !Number.isFinite(cleanPrice) ||
-    cleanPrice <= 0 ||
-    !Number.isInteger(cleanStock) ||
-    cleanStock < 0
+    !Number.isFinite(cleanCostPrice) || cleanCostPrice < 0 ||
+    !Number.isFinite(cleanPrice) || cleanPrice <= 0 ||
+    !Number.isInteger(cleanStock) || cleanStock < 0
 ) {
     showAlert("Please enter valid product details.");
     return;
@@ -1715,6 +1721,7 @@ try {
         .from("products")
         .update({
             name: cleanName,
+            cost_price: cleanCostPrice,
             price: cleanPrice,
             stock: cleanStock
         })
@@ -1725,6 +1732,7 @@ try {
 
     await loadAllCloudData();
     renderProducts();
+
     showAlert("Product updated successfully!");
 
 } catch (error) {
@@ -1732,7 +1740,7 @@ try {
     showAlert("Unable to update product: " + error.message);
 }
 
-}
+        }
 async function getSaleReceiptDetails(saleId) {
 try {
 const { data: sale, error: saleError } = await db
