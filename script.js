@@ -1809,3 +1809,25 @@ function savePrinterSettings() {
 
     showAlert("Printer settings saved successfully!");
 }
+function testPrintReceipt() {
+    const testDetails = {
+        id: "TEST-0001",
+        date: new Date().toISOString(),
+        customer: "",
+        total: 2500,
+        items: [
+            {
+                product_name: "Sample Product",
+                quantity: 2,
+                unit_price: 1250,
+                line_total: 2500
+            }
+        ]
+    };
+
+    showReceipt(testDetails);
+
+    setTimeout(() => {
+        printReceipt();
+    }, 500);
+}
