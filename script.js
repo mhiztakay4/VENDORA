@@ -890,30 +890,30 @@ function renderProducts(searchTerm = "") {
     }
     
     container.innerHTML = filtered.map(product => `
-    <div class="product-item">
-        <div>
-            <strong>${escapeHTML(product.name)}</strong>
-            <small>
-                ${formatMoney(product.price)}
-                · Stock: ${Number(product.stock || 0)}
-            </small>
-        </div>
+<div class="product-item">
+<div>
+<strong>${escapeHTML(product.name)}</strong>
+<small>
+Cost: ${formatMoney(product.cost_price || 0)}
+· Selling: ${formatMoney(product.price)}
+· Stock: ${Number(product.stock || 0)}
+</small>
+</div>
 
-        <div class="product-actions">
-            <button type="button"
-                onclick="editProduct('${product.id}')">
-                Edit
-            </button>
+    <div class="product-actions">
+        <button type="button"
+            onclick="editProduct('${product.id}')">
+            Edit
+        </button>
 
-            <button type="button"
-                onclick="deleteProduct('${product.id}')">
-                Delete
-            </button>
-        </div>
+        <button type="button"
+            onclick="deleteProduct('${product.id}')">
+            Delete
+        </button>
     </div>
+</div>
+
 `).join("");
-    
-}
 
 function filterProducts() {
     renderProducts($("productSearch")?.value || "");
