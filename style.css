@@ -930,3 +930,53 @@ body * {
         font-size: 12px;
     }
 }
+
+/* SALES HISTORY ACTION BUTTONS */
+
+.transaction-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.transaction-actions button {
+    border: none;
+    padding: 11px 13px;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.receipt-view-btn {
+    background: #EAF2FF;
+    color: #2563EB;
+}
+
+.receipt-print-btn {
+    background: #F3E8FF;
+    color: #7E22CE;
+}
+
+.receipt-download-btn {
+    background: #DCFCE7;
+    color: #15803D;
+}
+
+.transaction-actions button:active {
+    transform: scale(0.96);
+}
+
+.sale-amount {
+    display: block;
+    color: var(--green);
+    margin-top: 8px;
+}
+
+@media (max-width: 480px) {
+    .transaction-actions button {
+        flex: 1 1 100%;
+        padding: 12px;
+    }
+}
