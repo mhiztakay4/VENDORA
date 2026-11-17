@@ -744,26 +744,26 @@ function renderSalesHistory(searchTerm = "") {
     
     container.innerHTML = filtered.map(sale => `
     <div class="transaction-item">
-        <div>
+        <div class="transaction-info">
             <strong>${escapeHTML(sale.customer_name || "Walk-in Customer")}</strong>
             <small>${formatDateTime(sale.created_at)}</small>
-            <strong>${formatMoney(sale.total)}</strong>
+            <strong class="sale-amount">${formatMoney(sale.total)}</strong>
         </div>
 
         <div class="transaction-actions">
-            <button type="button"
+            <button type="button" class="receipt-view-btn"
                 onclick="viewSaleReceipt('${sale.id}')">
-                View Receipt
+                👁 View Receipt
             </button>
 
-            <button type="button"
+            <button type="button" class="receipt-print-btn"
                 onclick="reprintSaleReceipt('${sale.id}')">
-                Reprint
+                🖨 Reprint
             </button>
 
-            <button type="button"
+            <button type="button" class="receipt-download-btn"
                 onclick="downloadSaleReceipt('${sale.id}')">
-                Download
+                ⬇ Download
             </button>
         </div>
     </div>
