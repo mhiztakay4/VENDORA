@@ -778,43 +778,50 @@ function filterSalesHistory() {
 // PART 4: PRODUCT MANAGEMENT
 // ==========================================
 
-async function addProduct(name, price, stock) {
-    if (!currentBusiness || !cloudReady) {
-        showAlert("Please log in before adding products.");
-        return;
-    }
+async function addProduct(name, costPrice, price, stock) {
+if (!currentBusiness || !cloudReady) {
+showAlert("Please log in before adding products.");
+return;
+}
 
-    name = String(name || "").trim();
-    price = Number(price);
-    stock = Number(stock);
+name = String(name || "").trim();
+costPrice = Number(costPrice);
+price = Number(price);
+stock = Number(stock);
 
-    if (!name || !Number.isFinite(price) || price <= 0 ||
-        !Number.isInteger(stock) || stock < 0) {
-        showAlert("Enter a valid product name, price and stock quantity.");
-        return;
-    }
+if (
+    !name ||
+    !Number.isFinite(costPrice) || costPrice < 0 ||
+    !Number.isFinite(price) || price <= 0 ||
+    !Number.isInteger(stock) || stock < 0
+) {
+    showAlert("Enter valid product details.");
+    return;
+}
 
-    try {
-        const { error } = await db
-            .from("products")
-            .insert({
-                business_id: currentBusiness.id,
-                name,
-                price,
-                stock
-            });
+try {
+    const { error } = await db
+        .from("products")
+        .insert({
+            business_id: currentBusiness.id,
+            name,
+            cost_price: costPrice,
+            price,
+            stock
+        });
 
-        if (error) throw error;
+    if (error) throw error;
 
-        await loadAllCloudData();
-        renderProducts();
+    await loadAllCloudData();
+    renderProducts();
 
-        showAlert("Product added successfully!");
+    showAlert("Product added successfully!");
 
-    } catch (error) {
-        console.error("Add product error:", error);
-        showAlert("Unable to add product: " + (error.message || "Please try again."));
-    }
+} catch (error) {
+    console.error("Add product error:", error);
+    showAlert("Unable to add product: " + (error.message || "Please try again."));
+}
+
 }
 
 async function deleteProduct(productId) {
