@@ -859,5 +859,74 @@ body * {
 .receipt-actions {
     display: none !important;
 }
+}
 
+/* =================================
+   VENDORA ACTION BUTTONS
+================================= */
+
+/* General button styling */
+.sales-history-item button,
+.product-item button {
+    border: none;
+    padding: 10px 13px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 4px 3px 4px 0;
+    transition: 0.2s ease;
+}
+
+/* View Receipt and Edit */
+.sales-history-item button:first-of-type,
+.product-item button:first-of-type {
+    background: #EAF2FF;
+    color: #2563EB;
+}
+
+/* Reprint and Delete */
+.sales-history-item button:nth-of-type(2),
+.product-item button:nth-of-type(2) {
+    background: #FEECEC;
+    color: #DC2626;
+}
+
+/* Download */
+.sales-history-item button:nth-of-type(3) {
+    background: #E7F8EF;
+    color: #059669;
+}
+
+/* Button interaction */
+.sales-history-item button:active,
+.product-item button:active {
+    transform: scale(0.96);
+}
+
+/* Better product card layout */
+.product-item {
+    background: #FFFFFF;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+    line-height: 1.8;
+}
+
+/* Better sales card layout */
+.sales-history-item {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 18px 12px;
+}
+
+/* Mobile button spacing */
+@media (max-width: 480px) {
+    .sales-history-item button,
+    .product-item button {
+        padding: 10px 11px;
+        font-size: 12px;
+    }
 }
