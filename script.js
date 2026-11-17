@@ -913,6 +913,7 @@ Cost: ${formatMoney(product.cost_price || 0)}
 </div>
 
 `).join("");
+}
 
 function filterProducts() {
     renderProducts($("productSearch")?.value || "");
