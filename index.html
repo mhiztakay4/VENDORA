@@ -674,6 +674,38 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="script.js"></script>
+<!-- VENDORA PRINTER SETTINGS -->
+<section id="printerSettings" class="section" hidden>
 
+    <div class="card">
+        <h2>🖨️ Printer Settings</h2>
+        <p>Configure your receipt printing preferences.</p>
+
+        <label for="receiptPaperSize">Receipt Paper Size</label>
+
+        <select id="receiptPaperSize">
+            <option value="58">58mm Thermal Printer</option>
+            <option value="80">80mm Thermal Printer</option>
+        </select>
+
+        <button type="button" onclick="savePrinterSettings()">
+            Save Settings
+        </button>
+    </div>
+
+    <div class="card">
+        <h3>Printer Connection Guide</h3>
+
+        <p><strong>Bluetooth Printer</strong></p>
+        <p>Pair your printer with your Android phone through Bluetooth settings.</p>
+
+        <p><strong>USB Printer</strong></p>
+        <p>Connect a compatible printer using a suitable USB adapter.</p>
+
+        <p><strong>Wi-Fi Printer</strong></p>
+        <p>Connect your phone and printer to the same Wi-Fi network.</p>
+    </div>
+
+</section>
 </body>
 </html>
