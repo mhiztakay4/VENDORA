@@ -306,7 +306,8 @@ function hideAllScreens() {
         "productsScreen",
         "customersScreen",
         "expensesScreen",
-        "accountScreen"
+        "accountScreen",
+        "printerSettings"
     ];
 
     screens.forEach(id => {
