@@ -1447,7 +1447,11 @@ function showReceipt(details) {
     
     $("receiptTotal").textContent =
         formatMoney(details.total);
-    
+    const savedPaperSize = localStorage.getItem("vendora_paper_size");
+
+if ($("receiptPaperSize")) {
+    $("receiptPaperSize").value = savedPaperSize || "58";
+        }
     modal.hidden = false;
     
 }
