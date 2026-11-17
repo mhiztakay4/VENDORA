@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101B35">
+
+    <title>VENDORA | Business Management</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- HEADER -->
+    <header class="topbar">
+        <div class="brand">
+            <div class="business-identity">
+    <img id="businessLogoDisplay" src="" alt="Business Logo"
+         style="display:none;width:40px;height:40px;object-fit:cover;border-radius:50%;">
+
+    <h3 id="businessNameDisplay">VENDORA</h3>
+</div>
+            <div class="brand-icon">V</div>
+            <div>
+                <h2>VENDORA</h2>
+                <small>Your Business. Your Control.</small>
+            </div>
+        </div>
+
+        <button class="profile-btn" onclick="showMessage('Account')">
+            MB
+        </button>
+    </header>
+<!-- AUTHENTICATION SCREEN -->
+<section id="authScreen" class="auth-screen">
+
+    <div class="auth-card">
+
+        <div class="auth-brand">
+            <div class="brand-icon">V</div>
+            <h1>VENDORA</h1>
+            <p>Your Business. Your Control. Your Growth.</p>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <form id="loginForm">
+
+            <h2>Welcome Back</h2>
+            <p>Sign in to manage your business.</p>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="loginEmail"
+                    placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword"
+                    placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="primary-button">
+                Sign In
+            </button>
+
+            <p class="auth-switch">
+                Don't have an account?
+                <a href="#" id="showRegister">Create Account</a>
+            </p>
+
+        </form>
+
+        <!-- REGISTRATION FORM -->
+        <form id="registerForm" hidden>
+
+            <h2>Create Your Account</h2>
+            <p>Register your business with VENDORA.</p>
+
+            <div class="form-group">
+                <label>Owner's Full Name</label>
+                <input type="text" id="ownerName"
+                    placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Business Name</label>
+                <input type="text" id="registerBusinessName"
+                    placeholder="Enter business name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="registerEmail"
+                    placeholder="Enter email address" required>
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="registerPhone"
+                    placeholder="Enter phone number" required>
+            </div>
+
+            <div class="form-group">
+                <label>Business Address</label>
+                <textarea id="registerAddress"
+                    placeholder="Enter business address" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Business Category</label>
+                <select id="registerCategory" required>
+                    <option value="">Select category</option>
+                    <option>Retail Shop</option>
+                    <option>Supermarket</option>
+                    <option>Boutique</option>
+                    <option>Restaurant</option>
+                    <option>Pharmacy</option>
+                    <option>Electronics</option>
+                    <option>Cosmetics</option>
+                    <option>Provision Store</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="registerPassword"
+                    minlength="8"
+                    placeholder="Create a password (8 characters minimum)"
+                    required>
+            </div>
+
+            <button type="submit" class="primary-button">
+                Create Account
+            </button>
+
+            <p class="auth-switch">
+                Already registered?
+                <a href="#" id="showLogin">Sign In</a>
+            </p>
+
+        </form>
+
+        <p id="authMessage" role="status"></p>
+
+    </div>
+
+</section>
+
+    <main class="main-content">
+
+        <!-- DASHBOARD -->
+        <section id="dashboardScreen">
+
+            <section class="welcome">
+                <div>
+                    <p>Welcome back 👋</p>
+                    <h1>Business Overview</h1>
+                    <small>Here's what's happening with your business.</small>
+                </div>
+            </section>
+
+            <section class="business-card">
+                <div>
+                    <span>Total Revenue</span>
+                    <h2 id="dashboardRevenue">₦0.00</h2>
+                    <small>Based on recorded sales</small>
+                </div>
+                <div class="revenue-icon">↗</div>
+            </section>
+
+            <section class="stats-grid">
+
+                <div class="stat-card">
+                    <span>Total Sales</span>
+                    <h3 id="dashboardSales">₦0</h3>
+                    <small>Recorded sales</small>
+                </div>
+
+                <div class="stat-card">
+                    <span>Expenses</span>
+                    <h3 id="dashboardExpenses">₦0</h3>
+                    <small>Recorded expenses</small>
+                </div>
+
+                <div class="stat-card">
+                    <span>Products</span>
+                    <h3 id="dashboardProducts">0</h3>
+                    <small>Products added</small>
+                </div>
+
+                <div class="stat-card">
+                    <span>Customers</span>
+                    <h3 id="dashboardCustomers">0</h3>
+                    <small>Registered customers</small>
+                </div>
+
+            </section>
+
+            <section class="quick-section">
+                <h2>Quick Actions</h2>
+
+                <div class="action-grid">
+
+                    <button onclick="showMessage('New Sale')">
+                        <span>＋</span>
+                        New Sale
+                    </button>
+
+                    <button onclick="showMessage('Add Product')">
+                        <span>📦</span>
+                        Add Product
+                    </button>
+
+                    <button onclick="showMessage('Expenses')">
+    <span>💳</span>
+    Expenses
+</button>
+
+                    <button onclick="showMessage('Add Customer')">
+                        <span>👤</span>
+                        Add Customer
+                    </button>
+
+                    <button onclick="showMessage('View Reports')">
+                        <span>📊</span>
+                        Reports
+                    </button>
+
+                </div>
+            </section>
+
+            <section class="transactions">
+                <h2>Recent Transactions</h2>
+
+                <div id="recentTransactions">
+                    <p>No transactions recorded yet.</p>
+                </div>
+            </section>
+
+        </section>
+
+
+        <!-- NEW SALE SCREEN -->
+        <section id="newSaleScreen" hidden>
+
+            <div class="page-heading">
+
+                <button class="back-button" onclick="closeSaleScreen()">
+                    ← Back
+                </button>
+
+                <h1>New Sale</h1>
+                <p>Record a new business transaction.</p>
+
+            </div>
+
+            <div class="form-card">
+
+                <h2>Sale Information</h2>
+
+                <p class="form-description">
+                    Enter the details of the product being sold.
+                </p>
+
+                <form id="saleForm">
+
+                    <div class="form-group">
+                        <label for="saleProduct">Select Product</label>
+
+                        <select id="saleProduct" required>
+                            <option value="">Choose a product</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="saleQuantity">Quantity</label>
+
+                        <input
+                            type="number"
+                            id="saleQuantity"
+                            min="1"
+                            value="1"
+                            required
+                            placeholder="Enter quantity"
+                        >
+
+                        <small id="availableStock">
+                            Available stock: 0
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="saleCustomer">Customer Name</label>
+
+                        <input
+                            type="text"
+                            id="saleCustomer"
+                            required
+                            placeholder="Enter customer name"
+                        >
+                    </div>
+
+                    <div class="sale-total-card">
+                        <span>Total Amount</span>
+                        <h2 id="saleTotal">₦0.00</h2>
+                    </div>
+
+                    <button type="submit" class="primary-button">
+                        Complete Sale
+                    </button>
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        onclick="closeSaleScreen()"
+                    >
+                        Cancel
+                    </button>
+
+                </form>
+            </div>
+
+        </section>
+
+
+        <!-- SALES HISTORY SCREEN -->
+        <section id="salesHistoryScreen" hidden>
+
+            <div class="page-heading">
+
+                <button class="back-button" onclick="closeSalesScreen()">
+                    ← Back
+                </button>
+
+                <h1>Sales History</h1>
+
+                <p>Track and manage your business transactions.</p>
+
+            </div>
+
+
+            <!-- SALES SUMMARY -->
+            <div class="sales-summary-grid">
+
+                <div class="sales-summary-card">
+                    <span>Total Revenue</span>
+                    <h2 id="historyTotalRevenue">₦0</h2>
+                </div>
+
+                <div class="sales-summary-card">
+                    <span>Transactions</span>
+                    <h2 id="historyTotalTransactions">0</h2>
+                </div>
+
+            </div>
+
+
+            <!-- SEARCH -->
+            <div class="sales-search">
+
+                <input
+                    type="search"
+                    id="salesSearch"
+                    placeholder="Search customer or product..."
+                    oninput="filterSalesHistory()"
+                >
+
+            </div>
+
+
+            <!-- SALES LIST -->
+            <div class="sales-history-container">
+
+                <div class="sales-history-heading">
+                    <h2>All Transactions</h2>
+                </div>
+
+                <div id="salesHistoryList">
+
+                    <p>No sales recorded yet.</p>
+
+                </div>
+
+            </div>
+
+        </section>
+<!-- PRODUCT INVENTORY SCREEN -->
+<section id="productsScreen" hidden>
+
+    <div class="page-heading">
+
+        <button class="back-button" onclick="closeProductsScreen()">
+            ← Back
+        </button>
+
+        <h1>Product Inventory</h1>
+
+        <p>Manage and monitor your business stock.</p>
+
+    </div>
+
+    <!-- INVENTORY SUMMARY -->
+    <div class="sales-summary-grid">
+
+        <div class="sales-summary-card">
+            <span>Total Products</span>
+            <h2 id="inventoryTotalProducts">0</h2>
+        </div>
+
+        <div class="sales-summary-card">
+            <span>Low Stock</span>
+            <h2 id="inventoryLowStock">0</h2>
+        </div>
+
+        <div class="sales-summary-card">
+            <span>Out of Stock</span>
+            <h2 id="inventoryOutOfStock">0</h2>
+        </div>
+
+        <div class="sales-summary-card">
+            <span>Total Stock Units</span>
+            <h2 id="inventoryTotalUnits">0</h2>
+        </div>
+
+    </div>
+
+    <!-- ADD PRODUCT BUTTON -->
+    <button
+        class="primary-button"
+        onclick="showMessage('Add Product')"
+    >
+        + Add New Product
+    </button>
+
+    <!-- PRODUCT SEARCH -->
+    <div class="sales-search" style="margin-top: 20px;">
+
+        <input
+            type="search"
+            id="productSearch"
+            placeholder="Search products..."
+            oninput="filterProducts()"
+        >
+
+    </div>
+
+    <!-- PRODUCT LIST -->
+    <div class="sales-history-container">
+
+        <div class="sales-history-heading">
+            <h2>All Products</h2>
+        </div>
+
+        <div id="productsList">
+            <p>No products added yet.</p>
+        </div>
+
+    </div>
+
+</section>
+<!-- CUSTOMER MANAGEMENT SCREEN -->
+<section id="customersScreen" hidden>
+
+    <div class="page-heading">
+        <button class="back-button" onclick="closeCustomersScreen()">
+            ← Back
+        </button>
+
+        <h2>Customer Management</h2>
+        <p>Manage your business customers.</p>
+    </div>
+
+    <div class="sales-summary-grid">
+
+        <div class="sales-summary-card">
+            <span>Total Customers</span>
+            <h3 id="totalCustomers">0</h3>
+        </div>
+
+    </div>
+
+    <div class="sales-search">
+        <input
+            type="search"
+            id="customerSearch"
+            placeholder="Search customers..."
+            oninput="filterCustomers()"
+        >
+    </div>
+
+    <button class="primary-button"
+        onclick="addCustomerFromScreen()">
+        + Add New Customer
+    </button>
+
+    <div class="sales-history-container">
+        <h3>Customer Directory</h3>
+        <div id="customersList"></div>
+    </div>
+
+</section>
+<!-- EXPENSE MANAGEMENT SCREEN -->
+<section id="expensesScreen" hidden>
+
+    <div class="page-heading">
+        <button class="back-button" onclick="closeExpensesScreen()">
+            ← Back
+        </button>
+
+        <h2>Expense Management</h2>
+        <p>Track and manage your business spending.</p>
+    </div>
+
+    <div class="sales-summary-grid">
+
+        <div class="sales-summary-card">
+            <span>Total Expenses</span>
+            <h3 id="totalExpenses">₦0</h3>
+        </div>
+
+        <div class="sales-summary-card">
+            <span>Total Transactions</span>
+            <h3 id="expenseCount">0</h3>
+        </div>
+
+    </div>
+
+    <div class="sales-search">
+        <input
+            type="search"
+            id="expenseSearch"
+            placeholder="Search expenses..."
+            oninput="filterExpenses()"
+        >
+    </div>
+
+    <button class="primary-button" onclick="addExpenseFromScreen()">
+        + Record New Expense
+    </button>
+
+    <div class="sales-history-container">
+        <h3>Expense History</h3>
+        <div id="expensesList"></div>
+    </div>
+
+</section>
+<!-- BUSINESS PROFILE SCREEN --><section id="accountScreen" hidden><div class="page-heading">
+    <button class="back-button" onclick="goHome()">
+        ← Back
+    </button>
+
+    <h1>Business Profile</h1>
+    <p>Set up your business information.</p>
+</div>
+
+<div class="form-card">
+
+    <form id="businessProfileForm">
+
+        <div class="form-group">
+            <label for="businessName">Business Name</label>
+            <input type="text" id="businessName"
+                placeholder="Enter business name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="businessPhone">Phone Number</label>
+            <input type="tel" id="businessPhone"
+                placeholder="Enter phone number">
+        </div>
+
+        <div class="form-group">
+            <label for="businessAddress">Business Address</label>
+            <textarea id="businessAddress"
+                placeholder="Enter business address"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="businessLogo">Business Logo</label>
+            <input type="file" id="businessLogo"
+                accept="image/*">
+        </div>
+
+        <button type="submit" class="primary-button">
+            Save Business Profile
+        </button>
+
+    </form>
+
+</div>
+
+</section>
+    </main>
+
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+
+        <button class="active" onclick="goHome()">
+            ⌂
+            <small>Home</small>
+        </button>
+
+        <button onclick="showMessage('Sales')">
+            ₦
+            <small>Sales</small>
+        </button>
+
+        <button onclick="showMessage('Products')">
+            ▣
+            <small>Products</small>
+        </button>
+
+        <button onclick="showMessage('Customers')">
+            👤
+            <small>Customers</small>
+        </button>
+
+       <button onclick="showMessage('Expenses')">
+    💳
+    <small>Expenses</small>
+</button>
+
+        <button onclick="showMessage('Account')">
+            ●
+            <small>Account</small>
+        </button>
+
+    </nav>
+
+</div>
+<!-- VENDORA PRINT RECEIPT --><div id="receiptModal" class="receipt-modal" hidden><div id="receiptContent" class="receipt-content">
+    <h2 id="receiptBusinessName">VENDORA</h2>
+    <p>SALES RECEIPT</p>
+
+    <hr>
+
+    <p>Receipt No: <span id="receiptNumber"></span></p>
+    <p>Date: <span id="receiptDate"></span></p>
+    <p>Customer: <span id="receiptCustomer"></span></p>
+
+    <hr>
+
+    <div id="receiptItems"></div>
+
+    <hr>
+
+    <h3>Total: <span id="receiptTotal"></span></h3>
+
+    <p>Thank you for your patronage!</p>
+</div>
+<div class="receipt-printer-settings">
+    <label for="receiptPaperSize">Printer Paper Size:</label>
+    <select id="receiptPaperSize">
+        <option value="58">58mm Thermal Printer</option>
+        <option value="80">80mm Thermal Printer</option>
+    </select>
+</div>
+<div class="receipt-actions">
+    <button type="button" onclick="printReceipt()">
+        🖨️ Print Receipt
+    </button>
+    
+    <button type="button" onclick="closeReceipt()">
+        Close
+    </button>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="script.js"></script>
+
+</body>
+</html>
