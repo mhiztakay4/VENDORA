@@ -388,7 +388,15 @@ function openAccount() {
     showScreen("accountScreen");
     updateBusinessDisplay();
 }
+function openPrinterSettings() {
+    showScreen("printerSettings");
+    
+    const savedSize = localStorage.getItem("vendora_paper_size") || "58";
 
+    if ($("printerPaperSize")) {
+        $("printerPaperSize").value = savedSize;
+    }
+}
 // Close buttons used by the HTML
 function closeSaleScreen() {
     goHome();
