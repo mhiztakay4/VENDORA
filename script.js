@@ -1785,3 +1785,6 @@ setTimeout(() => {
 }, 300);
 
 }
+$("receiptPaperSize")?.addEventListener("change", function () {
+    localStorage.setItem("vendora_paper_size", this.value);
+});
