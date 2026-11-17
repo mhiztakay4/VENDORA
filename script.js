@@ -1788,3 +1788,16 @@ setTimeout(() => {
 $("receiptPaperSize")?.addEventListener("change", function () {
     localStorage.setItem("vendora_paper_size", this.value);
 });
+function savePrinterSettings() {
+    const paperSize = $("printerPaperSize")?.value || "58";
+
+    localStorage.setItem("vendora_paper_size", paperSize);
+
+    const receiptSelector = $("receiptPaperSize");
+
+    if (receiptSelector) {
+        receiptSelector.value = paperSize;
+    }
+
+    showAlert("Printer settings saved successfully!");
+        }
