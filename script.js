@@ -561,61 +561,103 @@ function openAccountScreen() {
 // PART 3: SALES MANAGEMENT
 // ==========================================
 
+let saleItemCounter = 0;
+
 function populateSaleProducts() {
-    const select = $("saleProduct");
+    const container = $("saleItemsContainer");
+    if (!container) return;
 
-    if (!select) return;
+    container.innerHTML = "";
+    saleItemCounter = 0;
 
-    select.innerHTML = '<option value="">Select a product</option>';
+    addSaleItemRow();
+    updateSaleTotal();
+}
 
-    products.forEach(product => {
-        select.innerHTML += `
-            <option value="${product.id}">
-                ${escapeHTML(product.name)} — ${formatMoney(product.price)}
-                (Stock: ${Number(product.stock || 0)})
-            </option>
-        `;
-    });
+function addSaleItemRow() {
+    const container = $("saleItemsContainer");
+    if (!container) return;
+
+    const rowId = ++saleItemCounter;
+
+    const options = products.map(product => `
+        <option value="${product.id}">
+            ${escapeHTML(product.name)} — ${formatMoney(product.price)}
+            (Stock: ${Number(product.stock || 0)})
+        </option>
+    `).join("");
+
+    container.insertAdjacentHTML("beforeend", `
+        <div class="sale-item-row" id="saleRow${rowId}"
+             style="border:1px solid #ddd;padding:12px;border-radius:10px;margin-bottom:10px;">
+
+            <label>Product</label>
+            <select class="sale-item-product" required
+                    onchange="updateSaleTotal()">
+                <option value="">Select a product</option>
+                ${options}
+            </select>
+
+            <label style="display:block;margin-top:10px;">Quantity</label>
+            <input type="number" class="sale-item-quantity"
+                   min="1" value="1" required
+                   oninput="updateSaleTotal()">
+
+            <small class="sale-item-stock">Available stock: 0</small>
+
+            <button type="button"
+                    class="secondary-button"
+                    onclick="removeSaleItemRow(${rowId})"
+                    style="margin-top:8px;">
+                Remove
+            </button>
+        </div>
+    `);
+
+    updateSaleTotal();
+}
+
+function removeSaleItemRow(rowId) {
+    const row = $("saleRow" + rowId);
+    if (row) row.remove();
 
     updateSaleTotal();
 }
 
 function updateSaleTotal() {
-const productId = $("saleProduct")?.value;
-const quantity = Number($("saleQuantity")?.value || 0);
+    let total = 0;
 
-const product = products.find(
-    item => String(item.id) === String(productId)
-);
+    document.querySelectorAll(".sale-item-row").forEach(row => {
+        const productId = row.querySelector(".sale-item-product")?.value;
+        const quantity = Number(
+            row.querySelector(".sale-item-quantity")?.value || 0
+        );
 
-const totalElement = $("saleTotal");
+        const product = products.find(
+            item => String(item.id) === String(productId)
+        );
 
-if (!product) {
+        const stockElement = row.querySelector(".sale-item-stock");
+
+        if (product) {
+            const stock = Number(product.stock || 0);
+            const price = Number(product.price || 0);
+
+            total += price * quantity;
+
+            if (stockElement) {
+                stockElement.textContent = "Available stock: " + stock;
+            }
+        } else if (stockElement) {
+            stockElement.textContent = "Available stock: 0";
+        }
+    });
+
+    const totalElement = $("saleTotal");
     if (totalElement) {
-        totalElement.textContent = formatMoney(0);
+        totalElement.textContent = formatMoney(total);
     }
-
-    if ($("availableStock")) {
-        $("availableStock").textContent = "Available stock: 0";
-    }
-
-    return;
-}
-
-const stock = Number(product.stock || 0);
-const price = Number(product.price || 0);
-const total = price * quantity;
-
-if (totalElement) {
-    totalElement.textContent = formatMoney(total);
-}
-
-if ($("availableStock")) {
-    $("availableStock").textContent =
-        "Available stock: " + stock;
-}
-
-}
+            }
 
 async function recordSale(event) {
     if (event) event.preventDefault();
