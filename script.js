@@ -793,14 +793,21 @@ async function recordSale(event) {
         populateSaleProducts();
 
         showReceipt({
-            id: sale.id,
-            customer: customerName,
-            product: items.map(item => item.product.name).join(", "),
-            quantity: items.map(item => item.quantity).join(", "),
-            price: Number(items[0].product.price || 0),
-            total,
-            date: sale.created_at
-        });
+    id: sale.id,
+    customer: customerName,
+    items: items.map(item => {
+        const unitPrice = Number(item.product.price || 0);
+
+        return {
+            product_name: item.product.name,
+            quantity: item.quantity,
+            unit_price: unitPrice,
+            line_total: unitPrice * item.quantity
+        };
+    }),
+    total,
+    date: sale.created_at
+});
 
         goHome();
 
