@@ -362,6 +362,12 @@ if (actions[section]) {
 
 function openNewSale() {
     showScreen("newSaleScreen");
+
+    if (!products || products.length === 0) {
+        showAlert("No products loaded. Please refresh and try again.");
+        return;
+    }
+
     populateSaleProducts();
 }
 
