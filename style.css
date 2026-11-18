@@ -980,3 +980,210 @@ body * {
         padding: 8px;
     }
 }
+/* ==========================================
+VENDORA PREMIUM DARK FINTECH THEME
+========================================== */
+
+:root {
+--navy: #101010;
+--green: #20C997;
+--white: #FFFFFF;
+--bg: #151515;
+--text: #F5F5F5;
+--muted: #A3A3A3;
+--border: #333333;
+}
+
+/* Main background */
+body {
+background: #151515;
+color: #F5F5F5;
+}
+
+.app-container {
+background: #151515;
+}
+
+/* Header */
+.topbar {
+background: #101010;
+color: #FFFFFF;
+border-bottom: 1px solid #292929;
+}
+
+.brand small {
+color: #A3A3A3;
+}
+
+.profile-btn {
+background: #FFFFFF;
+color: #101010;
+}
+
+/* Main content */
+.main-content {
+background: #151515;
+}
+
+.welcome h1,
+.page-heading h1,
+.quick-section h2,
+.transactions h2,
+.sales-history-heading h2 {
+color: #FFFFFF;
+}
+
+/* Business balance card */
+.business-card {
+background: linear-gradient(120deg, #20C997, #13A77D);
+color: #062D25;
+box-shadow: none;
+}
+
+.business-card span,
+.business-card small {
+color: #064E3B;
+}
+
+.revenue-icon {
+background: #101010;
+color: #20C997;
+}
+
+/* Statistics cards */
+.stat-card,
+.sales-summary-card {
+background: #242424;
+border: 1px solid #303030;
+}
+
+.stat-card span,
+.stat-card small,
+.sales-summary-card span {
+color: #A3A3A3;
+}
+
+.stat-card h3,
+.sales-summary-card h2 {
+color: #20C997;
+}
+
+/* Quick action cards */
+.action-grid button {
+background: #242424;
+color: #FFFFFF;
+border: 1px solid #303030;
+}
+
+.action-grid button span {
+color: #20C997;
+}
+
+/* Transaction cards */
+.transaction-item,
+.sales-history-container {
+background: #242424;
+border: 1px solid #303030;
+color: #FFFFFF;
+}
+
+.transaction-item strong {
+color: #FFFFFF;
+}
+
+/* Sales history */
+.sales-history-item {
+border-bottom-color: #383838;
+}
+
+.sales-history-item p {
+color: #FFFFFF;
+}
+
+/* Bottom navigation */
+.bottom-nav {
+background: #101010;
+border-top: 1px solid #303030;
+}
+
+.bottom-nav button {
+color: #929292;
+}
+
+.bottom-nav .active {
+color: #20C997;
+}
+
+/* Forms and product cards */
+.form-card,
+.product-item {
+background: #242424;
+border: 1px solid #333333;
+color: #FFFFFF;
+}
+
+.form-card h2,
+.form-group label {
+color: #FFFFFF;
+}
+
+.form-group input,
+.form-group select,
+.sales-search input {
+background: #303030;
+border: 1px solid #454545;
+color: #FFFFFF;
+}
+
+.form-group input::placeholder,
+.sales-search input::placeholder {
+color: #A3A3A3;
+}
+
+.back-button,
+.secondary-button {
+background: #303030;
+color: #FFFFFF;
+border-color: #454545;
+}
+
+.sale-total-card {
+background: linear-gradient(120deg, #20C997, #13A77D);
+color: #062D25;
+}
+
+.sale-total-card span,
+.sale-total-card h2 {
+color: #062D25;
+}
+
+/* Authentication */
+.auth-screen {
+background: #151515;
+}
+
+.auth-card {
+background: #242424;
+color: #FFFFFF;
+}
+
+.auth-card h1,
+.auth-card h2 {
+color: #FFFFFF;
+}
+
+.auth-card input,
+.auth-card select,
+.auth-card textarea {
+background: #303030;
+color: #FFFFFF;
+border-color: #454545;
+}
+
+/* Preserve receipt readability */
+.receipt-content,
+#vendoraReceipt,
+#vendoraReceiptOverlay #vendoraReceipt {
+background: #FFFFFF;
+color: #222222;
+}
