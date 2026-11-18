@@ -667,32 +667,72 @@ async function recordSale(event) {
         return;
     }
 
-    const productId = $("saleProduct")?.value;
-    const quantity = Number($("saleQuantity")?.value || 0);
     const customerName =
         $("saleCustomer")?.value.trim() || "Walk-in Customer";
 
-    const product = products.find(
-        item => String(item.id) === String(productId)
+    const rows = [...document.querySelectorAll(".sale-item-row")];
+
+    if (rows.length === 0) {
+        showAlert("Please add at least one product.");
+        return;
+    }
+
+    const selectedItems = [];
+
+    for (const row of rows) {
+        const productId = row.querySelector(".sale-item-product")?.value;
+        const quantity = Number(
+            row.querySelector(".sale-item-quantity")?.value || 0
+        );
+
+        const product = products.find(
+            item => String(item.id) === String(productId)
+        );
+
+        if (!product) {
+            showAlert("Please select a product in every row.");
+            return;
+        }
+
+        if (!Number.isInteger(quantity) || quantity < 1) {
+            showAlert("Enter a valid quantity for every product.");
+            return;
+        }
+
+        selectedItems.push({ product, quantity });
+    }
+
+    // Combine repeated products before checking stock.
+    const groupedItems = new Map();
+
+    selectedItems.forEach(({ product, quantity }) => {
+        const key = String(product.id);
+        const existing = groupedItems.get(key);
+
+        if (existing) {
+            existing.quantity += quantity;
+        } else {
+            groupedItems.set(key, { product, quantity });
+        }
+    });
+
+    const items = [...groupedItems.values()];
+
+    for (const item of items) {
+        if (item.quantity > Number(item.product.stock || 0)) {
+            showAlert(
+                "Not enough stock for " + item.product.name +
+                ". Available stock: " + Number(item.product.stock || 0)
+            );
+            return;
+        }
+    }
+
+    const total = items.reduce(
+        (sum, item) =>
+            sum + Number(item.product.price || 0) * item.quantity,
+        0
     );
-
-    if (!product) {
-        showAlert("Please select a product.");
-        return;
-    }
-
-    if (!Number.isInteger(quantity) || quantity < 1) {
-        showAlert("Enter a valid quantity.");
-        return;
-    }
-
-    if (quantity > Number(product.stock || 0)) {
-        showAlert("Not enough stock available.");
-        return;
-    }
-
-    const unitPrice = Number(product.price || 0);
-    const total = unitPrice * quantity;
 
     try {
         const { data: sale, error: saleError } = await db
@@ -707,52 +747,63 @@ async function recordSale(event) {
 
         if (saleError) throw saleError;
 
+        const saleItems = items.map(item => {
+            const unitPrice = Number(item.product.price || 0);
+
+            return {
+                sale_id: sale.id,
+                product_id: item.product.id,
+                product_name: item.product.name,
+                unit_price: unitPrice,
+                quantity: item.quantity,
+                line_total: unitPrice * item.quantity
+            };
+        });
+
         const { error: itemError } = await db
             .from("sale_items")
-            .insert({
-                sale_id: sale.id,
-                product_id: product.id,
-                product_name: product.name,
-                unit_price: unitPrice,
-                quantity,
-                line_total: total
-            });
+            .insert(saleItems);
 
         if (itemError) {
             await db.from("sales").delete().eq("id", sale.id);
             throw itemError;
         }
 
-        const { error: stockError } = await db
-            .from("products")
-            .update({
-                stock: Number(product.stock) - quantity
-            })
-            .eq("id", product.id)
-            .eq("business_id", currentBusiness.id);
+        for (const item of items) {
+            const { error: stockError } = await db
+                .from("products")
+                .update({
+                    stock: Number(item.product.stock || 0) - item.quantity
+                })
+                .eq("id", item.product.id)
+                .eq("business_id", currentBusiness.id);
 
-        if (stockError) throw stockError;
+            if (stockError) throw stockError;
+        }
 
         await loadAllCloudData();
 
-$("saleForm")?.reset();
-populateSaleProducts();
+        $("saleForm")?.reset();
+        populateSaleProducts();
 
-showReceipt({
-id: sale.id,
-customer: customerName,
-product: product.name,
-quantity: quantity,
-price: unitPrice,
-total: total,
-date: sale.created_at
-});
+        showReceipt({
+            id: sale.id,
+            customer: customerName,
+            product: items.map(item => item.product.name).join(", "),
+            quantity: items.map(item => item.quantity).join(", "),
+            price: Number(items[0].product.price || 0),
+            total,
+            date: sale.created_at
+        });
 
-goHome();
+        goHome();
 
     } catch (error) {
         console.error("Sale error:", error);
-        showAlert("Unable to record sale: " + (error.message || "Please try again."));
+        showAlert(
+            "Unable to record sale: " +
+            (error.message || "Please try again.")
+        );
         await loadAllCloudData();
     }
 }
