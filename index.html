@@ -16,23 +16,38 @@
 
     <!-- HEADER -->
     <header class="topbar">
-        <div class="brand">
-            <div class="business-identity">
-    <img id="businessLogoDisplay" src="" alt="Business Logo"
-         style="display:none;width:40px;height:40px;object-fit:cover;border-radius:50%;">
 
-    <h3 id="businessNameDisplay">VENDORA</h3>
-</div>
-            <div class="brand-icon">V</div>
-            <div>
-                <h2>VENDORA</h2>
-                <small>Your Business. Your Control.</small>
-            </div>
+    <!-- Visible when logged out -->
+    <div class="brand" id="guestHeader">
+        <div class="brand-icon">V</div>
+        <div>
+            <h2>VENDORA</h2>
         </div>
+    </div>
 
-        <button class="profile-btn" onclick="showMessage('Account')">
-            MB
-        </button>
+    <div class="guest-actions" id="guestActions">
+        <button type="button" id="headerLoginBtn">Login</button>
+        <button type="button" id="headerRegisterBtn">Register</button>
+    </div>
+
+    <!-- Visible after login -->
+    <div class="business-identity" id="businessHeader" style="display:none;">
+        <img id="businessLogoDisplay"
+             src=""
+             alt="Business Logo"
+             style="display:none;width:42px;height:42px;object-fit:cover;border-radius:50%;">
+
+        <div>
+            <h3 id="businessNameDisplay">My Business</h3>
+            <small>Business Owner</small>
+        </div>
+    </div>
+
+    <button class="profile-btn" id="businessProfileBtn"
+            style="display:none;" onclick="showScreen('accountScreen')">
+        MB
+    </button>
+
     </header>
 <!-- AUTHENTICATION SCREEN -->
 <section id="authScreen" class="auth-screen">
