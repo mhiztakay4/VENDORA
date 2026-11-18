@@ -239,11 +239,22 @@ async function saveBusinessProfile(event) {
 function updateBusinessDisplay() {
     if (!currentBusiness) return;
 
+    // Business name
     if ($("businessNameDisplay")) {
         $("businessNameDisplay").textContent =
             currentBusiness.business_name || "My Business";
     }
 
+    // Business logo
+    if ($("businessLogoDisplay")) {
+        const logo = currentBusiness.logo_url || "";
+
+        $("businessLogoDisplay").src = logo;
+        $("businessLogoDisplay").style.display =
+            logo ? "block" : "none";
+    }
+
+    // Business profile form
     if ($("businessName")) {
         $("businessName").value =
             currentBusiness.business_name || "";
@@ -257,6 +268,23 @@ function updateBusinessDisplay() {
     if ($("businessAddress")) {
         $("businessAddress").value =
             currentBusiness.address || "";
+    }
+
+    // Show the logged-in business header
+    if ($("businessHeader")) {
+        $("businessHeader").style.display = "flex";
+    }
+
+    if ($("businessProfileBtn")) {
+        $("businessProfileBtn").style.display = "block";
+    }
+
+    if ($("guestHeader")) {
+        $("guestHeader").style.display = "none";
+    }
+
+    if ($("guestActions")) {
+        $("guestActions").style.display = "none";
     }
 }
 
