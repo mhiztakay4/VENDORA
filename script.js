@@ -1464,7 +1464,7 @@ async function initializeAuthenticatedUser(user) {
                 owner_id: user.id,
                 owner_name: metadata.owner_name || "Business Owner",
                 business_name: metadata.business_name || "My Business",
-                phone: metadata.phone || "",
+                phone: metadata.phone || "Not provided"
                 address: metadata.address || "Not provided",
                 business_category: metadata.business_category || "General"
             })
