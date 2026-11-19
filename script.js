@@ -1413,7 +1413,7 @@ async function registerUser(event) {
         if (data.user && data.session) {
             const { error: businessError } = await db
                 .from("businesses")
-                ..insert({
+                .insert({
     owner_id: data.user.id,
     owner_name: ownerName,
     business_name: businessName,
