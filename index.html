@@ -645,44 +645,68 @@
     </nav>
 
 </div>
-<!-- VENDORA PRINT RECEIPT --><div id="receiptModal" class="receipt-modal" hidden><div id="receiptContent" class="receipt-content">
-    <h2 id="receiptBusinessName">VENDORA</h2>
-    <p>SALES RECEIPT</p>
-
-    <hr>
-
-    <p>Receipt No: <span id="receiptNumber"></span></p>
-    <p>Date: <span id="receiptDate"></span></p>
-    <p>Customer: <span id="receiptCustomer"></span></p>
-
-    <hr>
-
-    <div id="receiptItems"></div>
-
-    <hr>
-
-    <h3>Total: <span id="receiptTotal"></span></h3>
-
-    <p>Thank you for your patronage!</p>
-</div>
-<div class="receipt-printer-settings">
-    <label for="receiptPaperSize">Printer Paper Size:</label>
-    <select id="receiptPaperSize">
-        <option value="58">58mm Thermal Printer</option>
-        <option value="80">80mm Thermal Printer</option>
-    </select>
-</div>
-<div class="receipt-actions">
-    <button type="button" onclick="printReceipt()">
-        🖨️ Print Receipt
-    </button>
+<!-- VENDORA PRINT RECEIPT -->
     
-    <button type="button" onclick="closeReceipt()">
-        Close
-    </button>
-</div>
+   <div id="receiptModal" class="receipt-modal" hidden>
 
-</div>
+    <div id="receiptContent" class="receipt-content">
+
+        <!-- BUSINESS HEADER -->
+        <div class="receipt-business-header">
+
+            <img id="receiptBusinessLogo"
+                 src=""
+                 alt="Business Logo"
+                 style="display:none;">
+
+            <h2 id="receiptBusinessName">VENDORA</h2>
+
+            <p id="receiptBusinessEmail"></p>
+            <p id="receiptBusinessPhone"></p>
+            <p id="receiptBusinessAddress"></p>
+
+        </div>
+
+        <hr>
+
+        <!-- RECEIPT INFORMATION -->
+        <h3>SALES RECEIPT</h3>
+
+        <p>Receipt No: <span id="receiptNumber"></span></p>
+        <p>Date: <span id="receiptDate"></span></p>
+
+        <hr>
+
+        <div id="receiptItems"></div>
+
+        <hr>
+
+        <h3>Total: <span id="receiptTotal"></span></h3>
+
+        <p>Thank you for your patronage!</p>
+
+    </div>
+
+    <div class="receipt-printer-settings">
+        <label for="receiptPaperSize">Printer Paper Size:</label>
+
+        <select id="receiptPaperSize">
+            <option value="58">58mm Thermal Printer</option>
+            <option value="80">80mm Thermal Printer</option>
+        </select>
+    </div>
+
+    <div class="receipt-actions">
+        <button type="button" onclick="printReceipt()">
+            🖨️ Print Receipt
+        </button>
+
+        <button type="button" onclick="closeReceipt()">
+            Close
+        </button>
+    </div>
+
+   </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="script.js"></script>
 <!-- VENDORA PRINTER SETTINGS -->
