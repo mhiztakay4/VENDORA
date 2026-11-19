@@ -606,10 +606,13 @@ function renderRecentTransactions() {
             <strong>${formatMoney(sale.total)}</strong>
         </div>
 
-        <button type="button"
-            onclick="viewSaleReceipt('${sale.id}')">
-            🧾 View Receipt
-        </button>
+        <div class="transaction-actions">
+    <button type="button"
+        class="receipt-view-btn"
+        onclick="viewSaleReceipt('${sale.id}')">
+        🧾 View Receipt
+    </button>
+</div>
     </div>
 `).join("");
     
