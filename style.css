@@ -1377,3 +1377,132 @@ color: #222222;
     color: #a3a3a3;
     font-size: 12px;
 }
+/* =================================
+   VENDORA PREMIUM RECEIPT DESIGN
+================================= */
+
+.receipt-modal {
+    background: rgba(0, 0, 0, 0.82);
+    padding: 18px;
+    gap: 0;
+}
+
+.receipt-content {
+    background: #ffffff;
+    color: #222222;
+    width: 100%;
+    max-width: 420px;
+    max-height: 65vh;
+    overflow-y: auto;
+    padding: 28px 24px;
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+
+#receiptBusinessName {
+    color: #101010;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+}
+
+#receiptContent > p:first-of-type {
+    color: #20C997;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 22px;
+}
+
+#receiptContent hr {
+    border: 0;
+    border-top: 1px dashed #cccccc;
+    margin: 17px 0;
+}
+
+#receiptContent > p {
+    text-align: left;
+    font-size: 12px;
+    color: #555555;
+    margin: 10px 0;
+}
+
+#receiptContent > p span {
+    color: #111111;
+    font-weight: bold;
+}
+
+#receiptItems {
+    text-align: left;
+    color: #333333;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+#receiptContent h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #101010;
+    font-size: 18px;
+    margin: 20px 0;
+}
+
+#receiptContent > p:last-child {
+    text-align: center;
+    color: #20A77D;
+    font-weight: bold;
+    margin-top: 25px;
+}
+
+.receipt-printer-settings {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    padding: 12px 18px;
+    color: #222222;
+    font-size: 12px;
+}
+
+.receipt-printer-settings select {
+    width: 100%;
+    padding: 11px;
+    margin-top: 8px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #222222;
+}
+
+.receipt-actions {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    padding: 12px 18px 18px;
+    border-radius: 0 0 18px 18px;
+    display: flex;
+    gap: 10px;
+}
+
+.receipt-actions button {
+    flex: 1;
+    padding: 13px 8px;
+    border: none;
+    border-radius: 9px;
+    background: #20C997;
+    color: #101010;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.receipt-actions button:last-child {
+    background: #eeeeee;
+    color: #222222;
+}
+
+.receipt-actions button:active {
+    transform: scale(0.97);
+}
