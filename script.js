@@ -1466,7 +1466,7 @@ async function initializeAuthenticatedUser(user) {
                 business_name: metadata.business_name || "My Business",
                 phone: metadata.phone || "",
                 address: metadata.address || "Not provided",
-                business_category: metadata.business_category || null
+                business_category: metadata.business_category || "General"
             })
             .select()
             .single();
