@@ -1380,10 +1380,11 @@ async function registerUser(event) {
             email,
             password,
             options: {
-                data: {
-                    owner_name: ownerName,
-                    business_name: businessName
-                }
+    emailRedirectTo: "https://vendora-rho-ivory.vercel.app",
+    data: {
+        owner_name: ownerName,
+        business_name: businessName
+    }
             }
         });
 
