@@ -1536,3 +1536,25 @@ color: #222222;
     min-width: 120px;
     padding: 9px 13px;
 }
+/* Compact View Receipt Buttons */
+.transaction-actions {
+    width: auto !important;
+    display: inline-flex !important;
+    flex-wrap: nowrap !important;
+    margin-top: 10px;
+}
+
+.transaction-actions .receipt-view-btn {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    padding: 9px 13px !important;
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .transaction-actions .receipt-view-btn {
+        flex: 0 0 auto !important;
+        width: auto !important;
+    }
+}
