@@ -527,6 +527,9 @@ function openAddCustomer() {
 
     addCustomer(name, phone);
 }
+function addCustomerFromScreen() {
+    openAddCustomer();
+}
 
 function openReports() {
     const revenue = sales.reduce(
