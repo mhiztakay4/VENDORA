@@ -1506,3 +1506,23 @@ color: #222222;
 .receipt-actions button:active {
     transform: scale(0.97);
 }
+/* Dashboard Recent Transaction Receipt Button */
+.transaction-item .transaction-actions {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.transaction-item .receipt-view-btn {
+    background: #20C997;
+    color: #101010;
+    border: none;
+    border-radius: 9px;
+    padding: 11px 16px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.transaction-item .receipt-view-btn:active {
+    transform: scale(0.97);
+}
