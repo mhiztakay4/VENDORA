@@ -196,7 +196,7 @@ async function loadBusinessProfile() {
 async function saveBusinessProfile(event) {
     if (event) event.preventDefault();
 
-    if (!currentBusiness) {
+    if (!currentBusiness || !currentUser) {
         showAlert("Business profile not found.");
         return;
     }
@@ -204,6 +204,7 @@ async function saveBusinessProfile(event) {
     const businessName = $("businessName")?.value.trim();
     const phone = $("businessPhone")?.value.trim();
     const address = $("businessAddress")?.value.trim();
+    const logoFile = $("businessLogo")?.files?.[0];
 
     if (!businessName) {
         showAlert("Please enter your business name.");
@@ -211,12 +212,47 @@ async function saveBusinessProfile(event) {
     }
 
     try {
+        let logoUrl = currentBusiness.logo_url || "";
+
+        // Upload a new logo if one was selected
+        if (logoFile) {
+            if (!logoFile.type.startsWith("image/")) {
+                showAlert("Please select a valid image.");
+                return;
+            }
+
+            if (logoFile.size > 2 * 1024 * 1024) {
+                showAlert("Logo must be smaller than 2MB.");
+                return;
+            }
+
+            const fileExtension = logoFile.name.split(".").pop();
+            const filePath =
+                `${currentUser.id}/${Date.now()}.${fileExtension}`;
+
+            const { error: uploadError } = await db.storage
+                .from("business-logos")
+                .upload(filePath, logoFile, {
+                    upsert: false
+                });
+
+            if (uploadError) throw uploadError;
+
+            const { data: publicData } = db.storage
+                .from("business-logos")
+                .getPublicUrl(filePath);
+
+            logoUrl = publicData.publicUrl;
+        }
+
+        // Save business information
         const { data, error } = await db
             .from("businesses")
             .update({
                 business_name: businessName,
                 phone,
-                address
+                address,
+                logo_url: logoUrl
             })
             .eq("id", currentBusiness.id)
             .select()
@@ -228,11 +264,15 @@ async function saveBusinessProfile(event) {
 
         updateBusinessDisplay();
 
+        if ($("businessLogo")) {
+            $("businessLogo").value = "";
+        }
+
         showAlert("Business profile updated successfully.");
 
     } catch (error) {
         console.error("Profile update error:", error);
-        showAlert("Unable to update your business profile.");
+        showAlert("Unable to update business profile: " + error.message);
     }
 }
 
