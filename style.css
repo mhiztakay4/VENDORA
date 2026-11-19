@@ -1347,3 +1347,33 @@ color: #222222;
 .transaction-item small {
     color: #999;
 }
+
+/* Vendora Business Header Upgrade */
+.business-identity {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+#businessLogoDisplay {
+    flex-shrink: 0;
+    border: 2px solid rgba(32, 201, 151, 0.7);
+}
+
+.business-identity > div {
+    min-width: 0;
+}
+
+#businessNameDisplay {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #ffffff;
+    overflow-wrap: anywhere;
+}
+
+#businessOwnerNameDisplay {
+    display: block;
+    color: #a3a3a3;
+    font-size: 12px;
+}
