@@ -1382,8 +1382,11 @@ async function registerUser(event) {
             options: {
     emailRedirectTo: "https://vendora-rho-ivory.vercel.app",
     data: {
-        owner_name: ownerName,
-        business_name: businessName
+    owner_name: ownerName,
+    business_name: businessName,
+    phone: phone,
+    address: address,
+    business_category: category
     }
             }
         });
@@ -1454,7 +1457,6 @@ async function initializeAuthenticatedUser(user) {
 
     let business = await loadBusinessProfile();
 
-    // Create the business profile if it does not exist
     if (!business) {
         const metadata = user.user_metadata || {};
 
@@ -1464,7 +1466,7 @@ async function initializeAuthenticatedUser(user) {
                 owner_id: user.id,
                 owner_name: metadata.owner_name || "Business Owner",
                 business_name: metadata.business_name || "My Business",
-                phone: metadata.phone || "Not provided"
+                phone: metadata.phone || "Not provided",
                 address: metadata.address || "Not provided",
                 business_category: metadata.business_category || "General"
             })
