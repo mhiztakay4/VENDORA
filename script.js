@@ -1450,48 +1450,49 @@ async function loginUser(event) {
 }
 
 async function initializeAuthenticatedUser(user) {
-currentUser = user;
+    currentUser = user;
 
-let business = await loadBusinessProfile();
+    let business = await loadBusinessProfile();
 
-// Create the business profile if it does not exist
-if (!business) {
-    const metadata = user.user_metadata || {};
+    // Create the business profile if it does not exist
+    if (!business) {
+        const metadata = user.user_metadata || {};
 
-    const { data, error } = await db
-        .from("businesses")
-        .insert({
-            owner_id: user.id,
-            owner_name: metadata.owner_name || "Business Owner",
-            business_name: metadata.business_name || "My Business"
-        })
-        .select()
-        .single();
+        const { data, error } = await db
+            .from("businesses")
+            .insert({
+                owner_id: user.id,
+                owner_name: metadata.owner_name || "Business Owner",
+                business_name: metadata.business_name || "My Business",
+                phone: metadata.phone || "",
+                address: metadata.address || "Not provided",
+                business_category: metadata.business_category || null
+            })
+            .select()
+            .single();
 
-    if (error) {
-        console.error("Business creation error:", error);
-        showUnauthenticatedApp();
-        showAuthMessage(
-            "Unable to create your business profile: " + error.message
-        );
-        return;
+        if (error) {
+            console.error("Business creation error:", error);
+            showUnauthenticatedApp();
+            showAuthMessage(
+                "Unable to create your business profile: " + error.message
+            );
+            return;
+        }
+
+        currentBusiness = data;
+    } else {
+        currentBusiness = business;
     }
 
-    currentBusiness = data;
-} else {
-    currentBusiness = business;
+    updateBusinessDisplay();
+
+    await loadAllCloudData();
+
+    ensureLogoutButton();
+
+    showAuthenticatedApp();
 }
-
-updateBusinessDisplay();
-
-await loadAllCloudData();
-
-ensureLogoutButton();
-
-showAuthenticatedApp();
-
-}
-
 async function logoutUser() {
     const confirmed = confirm("Are you sure you want to log out?");
     if (!confirmed) return;
