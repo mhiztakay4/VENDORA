@@ -1615,60 +1615,76 @@ if (document.readyState === "loading") {
 
 function showReceipt(details) {
     const modal = $("receiptModal");
-    
+
     if (!modal) {
         showAlert("Receipt section not found.");
         return;
     }
-    
+
+    // Business information
     $("receiptBusinessName").textContent =
         currentBusiness?.business_name || "VENDORA";
-    
-    $("receiptNumber").textContent =
-        String(details.id).slice(0, 8).toUpperCase();
-    
-    $("receiptDate").textContent =
-        formatDateTime(details.date);
-    
-    const customerRow = $("receiptCustomer")?.parentElement;
-    
-    if (customerRow) {
-        if (details.customer?.trim()) {
-            $("receiptCustomer").textContent = details.customer.trim();
-            customerRow.hidden = false;
+
+    $("receiptBusinessEmail").textContent =
+        currentBusiness?.email || "";
+
+    $("receiptBusinessPhone").textContent =
+        currentBusiness?.phone || "";
+
+    $("receiptBusinessAddress").textContent =
+        currentBusiness?.address || "";
+
+    // Business logo
+    const logo = $("receiptBusinessLogo");
+
+    if (logo) {
+        if (currentBusiness?.logo_url) {
+            logo.src = currentBusiness.logo_url;
+            logo.style.display = "block";
         } else {
-            $("receiptCustomer").textContent = "";
-            customerRow.hidden = true;
+            logo.src = "";
+            logo.style.display = "none";
         }
     }
-    
+
+    // Receipt information
+    $("receiptNumber").textContent =
+        String(details.id).slice(0, 8).toUpperCase();
+
+    $("receiptDate").textContent =
+        formatDateTime(details.date);
+
+    // Receipt items
     const items = details.items || [{
         product_name: details.product,
         quantity: details.quantity,
         unit_price: details.price,
         line_total: details.total
     }];
-    
+
     $("receiptItems").innerHTML = items.map(item => `
-    <div class="receipt-item">
-        <p><strong>${escapeHTML(item.product_name)}</strong></p>
-        <p>
-            ${Number(item.quantity)} ×
-            ${formatMoney(item.unit_price)}
-            = ${formatMoney(item.line_total)}
-        </p>
-    </div>
-`).join("");
-    
+        <div class="receipt-item">
+            <p><strong>${escapeHTML(item.product_name)}</strong></p>
+            <p>
+                ${Number(item.quantity)} ×
+                ${formatMoney(item.unit_price)}
+                = ${formatMoney(item.line_total)}
+            </p>
+        </div>
+    `).join("");
+
     $("receiptTotal").textContent =
         formatMoney(details.total);
-    const savedPaperSize = localStorage.getItem("vendora_paper_size");
 
-if ($("receiptPaperSize")) {
-    $("receiptPaperSize").value = savedPaperSize || "58";
-        }
+    // Paper size
+    const savedPaperSize =
+        localStorage.getItem("vendora_paper_size");
+
+    if ($("receiptPaperSize")) {
+        $("receiptPaperSize").value = savedPaperSize || "58";
+    }
+
     modal.hidden = false;
-    
 }
 function closeReceipt() {
     const modal = $("receiptModal");
