@@ -617,7 +617,11 @@ body {
 .receipt-header {
     text-align: center;
 }
-
+#vendoraReceipt .receipt-header p {
+    font-size: 8px;
+    line-height: 1.3;
+    margin: 2px 0;
+}
 #vendoraReceipt table {
     width: 100%;
     border-collapse: collapse;
