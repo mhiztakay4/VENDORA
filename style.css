@@ -1573,3 +1573,64 @@ color: #222222;
     display: grid;
     place-items: center;
 }
+/* =================================
+   VENDORA RECEIPT BUSINESS HEADER
+================================= */
+
+.receipt-business-header {
+    text-align: center;
+    margin-bottom: 14px;
+    overflow-wrap: anywhere;
+}
+
+#receiptBusinessLogo {
+    display: block;
+    width: 85px;
+    height: 85px;
+    object-fit: contain;
+    margin: 0 auto 10px;
+}
+
+#receiptBusinessName {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 5px 0 8px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#receiptBusinessEmail,
+#receiptBusinessPhone,
+#receiptBusinessAddress {
+    font-size: 11px;
+    line-height: 1.5;
+    margin: 3px 0;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.receipt-content > h3 {
+    text-align: center;
+}
+
+/* Smaller header for thermal printers */
+.receipt-content.thermal-58 #receiptBusinessLogo {
+    width: 60px;
+    height: 60px;
+}
+
+.receipt-content.thermal-80 #receiptBusinessLogo {
+    width: 70px;
+    height: 70px;
+}
+
+@media print {
+    .receipt-business-header {
+        text-align: center;
+    }
+
+    #receiptBusinessLogo {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    }
