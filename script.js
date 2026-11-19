@@ -331,7 +331,12 @@ function updateBusinessDisplay() {
         $("guestActions").style.display = "none";
     }
 }
+const ownerName = currentBusiness.owner_name || "Business Owner";
 
+if ($("businessProfileInitial")) {
+    $("businessProfileInitial").textContent =
+        ownerName.trim().charAt(0).toUpperCase();
+}
 // ==========================================
 // LOGOUT BUTTON
 // ==========================================
