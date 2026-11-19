@@ -284,6 +284,10 @@ function updateBusinessDisplay() {
         $("businessNameDisplay").textContent =
             currentBusiness.business_name || "My Business";
     }
+    if ($("businessOwnerNameDisplay")) {
+    $("businessOwnerNameDisplay").textContent =
+        currentBusiness.owner_name || "Business Owner";
+    }
 
     // Business logo
     if ($("businessLogoDisplay")) {
