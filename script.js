@@ -288,7 +288,14 @@ function updateBusinessDisplay() {
     $("businessOwnerNameDisplay").textContent =
         currentBusiness.owner_name || "Business Owner";
     }
+const ownerName = (
+    currentBusiness.owner_name || "Business Owner"
+).trim();
 
+if ($("businessProfileInitial")) {
+    $("businessProfileInitial").textContent =
+        ownerName.charAt(0).toUpperCase();
+}
     // Business logo
     if ($("businessLogoDisplay")) {
         const logo = currentBusiness.logo_url || "";
