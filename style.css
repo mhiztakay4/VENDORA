@@ -1558,3 +1558,18 @@ color: #222222;
         width: auto !important;
     }
 }
+/* Vendora Owner Profile Button */
+.profile-btn {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border: 2px solid #20C997;
+    border-radius: 50%;
+    background: #20C997;
+    color: #101010;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+}
