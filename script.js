@@ -1611,7 +1611,18 @@ function initializeApp() {
         }
     });
 }
+    // Reports date selector
+    const reportPeriod = $("reportPeriod");
 
+    if (reportPeriod) {
+        reportPeriod.addEventListener("change", function () {
+            const customFields = $("customDateFields");
+
+            if (customFields) {
+                customFields.hidden = this.value !== "custom";
+            }
+        });
+    }
 // Start the application
 if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initializeApp);
