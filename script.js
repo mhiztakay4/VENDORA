@@ -186,8 +186,144 @@ async function loadAllCloudData() {
 
         showAlert(
             "Unable to load business data. Check your internet connection and try again."
-        );
+   // DISPLAY DAILY CLOSING HISTORY
+
+const historyContainer = $("dailyClosingHistory");
+
+if (historyContainer) {
+    if (!dailyClosings || dailyClosings.length === 0) {
+        historyContainer.innerHTML = `
+            <div class="report-empty-state">
+                <span>📚</span>
+                <h3>No closing records yet</h3>
+                <p>Your completed daily closings will appear here.</p>
+            </div>
+        `;
+    } else {
+        historyContainer.innerHTML = dailyClosings.map(closing => `
+            <div class="financial-stat" style="margin-bottom:12px;">
+                <div class="financial-stat-top">
+                    <span>${closing.closing_date}</span>
+                    <span>🔒</span>
+                </div>
+                <h3>${formatMoney(closing.net_profit)}</h3>
+                <small>
+                    Revenue: ${formatMoney(closing.total_revenue)}
+                    · Sales: ${closing.sales_count}
+                </small>
+            </div>
+        `).join("");
     }
+}     );
+    }
+async function confirmDailyClosing() {
+    if (!currentBusiness) {
+        showAlert("Please log in to your business account.");
+        return;
+    }
+
+    const button = $("confirmDailyClosingBtn");
+
+    if (button) button.disabled = true;
+
+    try {
+        const today = new Date();
+
+        const closingDate = [
+            today.getFullYear(),
+            String(today.getMonth() + 1).padStart(2, "0"),
+            String(today.getDate()).padStart(2, "0")
+        ].join("-");
+
+        // Check whether today has already been closed
+        const { data: existingClosing, error: checkError } = await db
+            .from("daily_closings")
+            .select("id")
+            .eq("business_id", currentBusiness.id)
+            .eq("closing_date", closingDate)
+            .maybeSingle();
+
+        if (checkError) throw checkError;
+
+        if (existingClosing) {
+            showAlert("This business day has already been closed.");
+            return;
+        }
+
+        // Get today's sales and expenses
+        const formatDate = date => {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            return `${year}-${month}-${day}`;
+        };
+
+        const todaySales = sales.filter(sale =>
+            sale.created_at &&
+            formatDate(new Date(sale.created_at)) === closingDate
+        );
+
+        const todayExpenses = expenses.filter(expense =>
+            expense.created_at &&
+            formatDate(new Date(expense.created_at)) === closingDate
+        );
+
+        const revenue = todaySales.reduce(
+            (sum, sale) => sum + Number(sale.total || 0), 0
+        );
+
+        let costOfGoods = 0;
+
+        todaySales.forEach(sale => {
+            (sale.sale_items || []).forEach(item => {
+                costOfGoods +=
+                    Number(item.cost_price || 0) *
+                    Number(item.quantity || 0);
+            });
+        });
+
+        const totalExpenses = todayExpenses.reduce(
+            (sum, expense) => sum + Number(expense.amount || 0), 0
+        );
+
+        const grossProfit = revenue - costOfGoods;
+        const netProfit = grossProfit - totalExpenses;
+
+        // Save the closing statement
+        const { error: insertError } = await db
+            .from("daily_closings")
+            .insert({
+                business_id: currentBusiness.id,
+                closing_date: closingDate,
+                total_revenue: revenue,
+                cost_of_goods_sold: costOfGoods,
+                gross_profit: grossProfit,
+                operating_expenses: totalExpenses,
+                net_profit: netProfit,
+                sales_count: todaySales.length,
+                expenses_count: todayExpenses.length,
+                closed_by: (await db.auth.getUser()).data.user?.id || null,
+                closing_note: $("closingNote")?.value.trim() || null
+            });
+
+        if (insertError) throw insertError;
+
+        showAlert("Business day closed successfully!");
+
+        if ($("closingNote")) {
+            $("closingNote").value = "";
+        }
+
+        await loadAllCloudData();
+        loadDailyClosing();
+
+    } catch (error) {
+        console.error("Daily closing error:", error);
+        showAlert(error.message || "Unable to close business day.");
+    } finally {
+        if (button) button.disabled = false;
+    }
+                           }
 }
 
 // ==========================================
