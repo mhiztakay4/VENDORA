@@ -540,23 +540,7 @@ function addCustomerFromScreen() {
 }
 
 function openReports() {
-    const revenue = sales.reduce(
-        (sum, sale) => sum + Number(sale.total || 0), 0
-    );
-
-    const totalExpenses = expenses.reduce(
-        (sum, expense) => sum + Number(expense.amount || 0), 0
-    );
-
-    showAlert(
-        "BUSINESS SUMMARY\n\n" +
-        "Total Revenue: " + formatMoney(revenue) + "\n" +
-        "Total Expenses: " + formatMoney(totalExpenses) + "\n" +
-        "Net Balance: " + formatMoney(revenue - totalExpenses) + "\n" +
-        "Total Sales: " + sales.length + "\n" +
-        "Total Products: " + products.length + "\n" +
-        "Total Customers: " + customers.length
-    );
+    showScreen("reportsScreen");
 }
 
 // ==========================================
