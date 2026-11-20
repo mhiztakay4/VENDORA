@@ -503,6 +503,7 @@ function hideAllScreens() {
     const screens = [
         "dashboardScreen",
         "reportsScreen",
+        "dailyClosingScreen",
         "newSaleScreen",
         "salesHistoryScreen",
         "productsScreen",
