@@ -816,7 +816,42 @@ function generateReport() {
             : ""
     }
 `;
-        }
+    const historyContainer = $("dailyClosingHistory");
+
+if (historyContainer) {
+    if (!dailyClosings.length) {
+        historyContainer.innerHTML = "<p>No closing records yet.</p>";
+    } else {
+        historyContainer.innerHTML = dailyClosings.map(closing => `
+            <div class="transaction-item">
+                <div>
+                    <strong>${new Date(closing.closing_date + "T00:00:00").toLocaleDateString("en-NG", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    })}</strong>
+
+                    <small>
+                        Sales: ${Number(closing.sales_count || 0)}
+                        · Expenses: ${Number(closing.expenses_count || 0)}
+                    </small>
+
+                    <small>
+                        Net profit: ${formatMoney(closing.net_profit)}
+                    </small>
+
+                    ${closing.closing_note
+                        ? `<small>${escapeHTML(closing.closing_note)}</small>`
+                        : ""}
+                </div>
+
+                <strong>${formatMoney(closing.total_revenue)}</strong>
+            </div>
+        `).join("");
+    }
+                            }
+       
+}
 function openReports() {
     showScreen("reportsScreen");
 }
