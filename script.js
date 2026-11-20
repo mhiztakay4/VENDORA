@@ -2223,10 +2223,73 @@ function downloadReport(type) {
         return;
     }
 
-    if (type !== "csv") {
-        showAlert("This download format will be added next.");
-        return;
-    }
+    if (type === "excel") {
+    const report = lastGeneratedReport;
+
+    const summary = [
+        ["VENDORA BUSINESS REPORT"],
+        ["Period", `${report.startDate} to ${report.endDate}`],
+        [],
+        ["Metric", "Amount"],
+        ["Total Revenue", report.revenue],
+        ["Cost of Goods Sold", report.costOfGoods],
+        ["Gross Profit", report.grossProfit],
+        ["Operating Expenses", report.totalExpenses],
+        ["Net Profit", report.netProfit],
+        ["Number of Sales", report.sales.length]
+    ];
+
+    const salesData = [
+        ["Date", "Customer", "Amount"],
+        ...report.sales.map(sale => [
+            sale.created_at || "",
+            sale.customer_name || "Walk-in Customer",
+            Number(sale.total || 0)
+        ])
+    ];
+
+    const expenseData = [
+        ["Date", "Description", "Category", "Amount"],
+        ...report.expenses.map(expense => [
+            expense.created_at || "",
+            expense.description || "",
+            expense.category || "",
+            Number(expense.amount || 0)
+        ])
+    ];
+
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+        workbook,
+        XLSX.utils.aoa_to_sheet(summary),
+        "Summary"
+    );
+
+    XLSX.utils.book_append_sheet(
+        workbook,
+        XLSX.utils.aoa_to_sheet(salesData),
+        "Sales"
+    );
+
+    XLSX.utils.book_append_sheet(
+        workbook,
+        XLSX.utils.aoa_to_sheet(expenseData),
+        "Expenses"
+    );
+
+    XLSX.writeFile(
+        workbook,
+        `Vendora-Report-${report.startDate}-to-${report.endDate}.xlsx`
+    );
+
+    return;
+}
+
+if (type !== "csv") {
+    showAlert("Unsupported download format.");
+    return;
+                   }
 
     const report = lastGeneratedReport;
 
