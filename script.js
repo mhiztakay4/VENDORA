@@ -1756,7 +1756,15 @@ function printReceipt() {
             h2 {
                 font-size: 17px;
             }
-
+            #receiptBusinessLogo {
+    width: 25px !important;
+    height: 25px !important;
+    max-width: 25px !important;
+    max-height: 25px !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto 5px !important;
+}
             h2, h3 {
                 text-align: center;
             }
