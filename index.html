@@ -264,25 +264,38 @@
         </section>
 
 <!-- REPORTS SCREEN -->
-<section id="reportsScreen" hidden>
+<!-- REPORTS SCREEN -->
+<section id="reportsScreen" hidden class="reports-page">
 
-    <div class="page-heading">
+    <div class="reports-header">
         <button class="back-button" onclick="goHome()">
-    ← Back
+            ← Back
         </button>
-        <h1>Business Reports</h1>
-        <p>Review and download your business performance.</p>
+
+        <div>
+            <span class="reports-tag">BUSINESS ANALYTICS</span>
+            <h1>Business Reports</h1>
+            <p>Track your performance and understand your business growth.</p>
+        </div>
     </div>
 
-    <div class="form-card">
-        <h2>Select Report Period</h2>
+    <!-- REPORT FILTER -->
+    <div class="report-filter-card">
+        <div class="report-card-heading">
+            <div>
+                <span class="section-label">REPORT SETTINGS</span>
+                <h2>Choose Report Period</h2>
+                <p>Select the period you want to analyse.</p>
+            </div>
+            <span class="report-icon">📊</span>
+        </div>
 
         <div class="form-group">
             <label for="reportPeriod">Report Type</label>
             <select id="reportPeriod">
-                <option value="daily">Daily</option>
-                <option value="weekly">Weekly</option>
-                <option value="monthly">Monthly</option>
+                <option value="daily">Daily Report</option>
+                <option value="weekly">Weekly Report</option>
+                <option value="monthly">Monthly Report</option>
                 <option value="custom">Custom Date Range</option>
             </select>
         </div>
@@ -295,30 +308,76 @@
             <input type="date" id="reportEndDate">
         </div>
 
-        <button class="primary-button" onclick="generateReport()">
-            Generate Report
+        <button class="primary-button report-generate-btn"
+                onclick="generateReport()">
+            Generate Report →
         </button>
     </div>
 
-    <div class="form-card" id="reportResults">
-        <h2>Report Summary</h2>
-        <p>Select a period and generate a report.</p>
+    <!-- REPORT RESULTS -->
+    <div class="report-results-card">
+        <div class="report-card-heading">
+            <div>
+                <span class="section-label">PERFORMANCE OVERVIEW</span>
+                <h2>Report Summary</h2>
+                <p>Your financial performance for the selected period.</p>
+            </div>
+            <span class="report-icon">💼</span>
+        </div>
+
+        <div id="reportResults" class="report-results-content">
+            <div class="report-empty-state">
+                <span>📈</span>
+                <h3>No report generated yet</h3>
+                <p>Select a reporting period above and tap Generate Report.</p>
+            </div>
+        </div>
     </div>
 
-    <div class="form-card">
-        <h2>Download Report</h2>
+    <!-- DOWNLOAD REPORT -->
+    <div class="report-download-card">
+        <div class="report-card-heading">
+            <div>
+                <span class="section-label">EXPORT YOUR DATA</span>
+                <h2>Download Report</h2>
+                <p>Save your business report in your preferred format.</p>
+            </div>
+            <span class="report-icon">📥</span>
+        </div>
 
-        <button class="secondary-button" onclick="downloadReport('csv')">
-            Download CSV
-        </button>
+        <div class="report-download-options">
 
-        <button class="secondary-button" onclick="downloadReport('excel')">
-            Download Excel
-        </button>
+            <button class="report-download-btn csv-btn"
+                    onclick="downloadReport('csv')">
+                <span class="download-format-icon">📄</span>
+                <span>
+                    <strong>Download CSV</strong>
+                    <small>Spreadsheet data</small>
+                </span>
+                <span class="download-arrow">↓</span>
+            </button>
 
-        <button class="secondary-button" onclick="downloadReport('pdf')">
-            Download PDF
-        </button>
+            <button class="report-download-btn excel-btn"
+                    onclick="downloadReport('excel')">
+                <span class="download-format-icon">📊</span>
+                <span>
+                    <strong>Download Excel</strong>
+                    <small>Excel workbook</small>
+                </span>
+                <span class="download-arrow">↓</span>
+            </button>
+
+            <button class="report-download-btn pdf-btn"
+                    onclick="downloadReport('pdf')">
+                <span class="download-format-icon">📕</span>
+                <span>
+                    <strong>Download PDF</strong>
+                    <small>Printable report</small>
+                </span>
+                <span class="download-arrow">↓</span>
+            </button>
+
+        </div>
     </div>
 
 </section>
