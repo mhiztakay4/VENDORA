@@ -963,8 +963,61 @@ function loadDailyClosing() {
                 <strong>${todayExpenses.length}</strong>
             </div>
         </div>
-    `;
+        `;
+
+    // DISPLAY DAILY CLOSING HISTORY
+    const historyContainer = $("dailyClosingHistory");
+
+    if (historyContainer) {
+        if (!dailyClosings || dailyClosings.length === 0) {
+            historyContainer.innerHTML =
+                "<p>No closing records yet.</p>";
+        } else {
+            historyContainer.innerHTML = dailyClosings.map(closing => {
+                const closingDate = new Date(
+                    closing.closing_date + "T00:00:00"
+                ).toLocaleDateString("en-NG", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                });
+
+                const note = closing.closing_note
+                    ? String(closing.closing_note).replace(
+                        /[&<>"']/g,
+                        char => ({
+                            "&": "&amp;",
+                            "<": "&lt;",
+                            ">": "&gt;",
+                            '"': "&quot;",
+                            "'": "&#39;"
+                        })[char]
+                    )
+                    : "";
+
+                return `
+                    <div class="transaction-item">
+                        <div>
+                            <strong>${closingDate}</strong>
+                            <small>
+                                Sales: ${Number(closing.sales_count || 0)}
+                                · Expenses: ${Number(closing.expenses_count || 0)}
+                            </small>
+                            <small>
+                                Net Profit: ${formatMoney(closing.net_profit)}
+                            </small>
+                            ${note ? `<small>${note}</small>` : ""}
+                        </div>
+
+                        <strong>
+                            ${formatMoney(closing.total_revenue)}
+                        </strong>
+                    </div>
+                `;
+            }).join("");
         }
+    }
+}
 // ==========================================
 // DASHBOARD
 // ==========================================
