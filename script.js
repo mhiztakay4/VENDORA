@@ -150,6 +150,7 @@ async function loadAllCloudData() {
         console.log("Vendora products:", products);
         customers = customersResult.data || [];
         sales = salesResult.data || [];
+        console.log("Vendora sales with item costs:", sales);
         expenses = expensesResult.data || [];
 
         cloudReady = true;
