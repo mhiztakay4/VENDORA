@@ -381,7 +381,69 @@
     </div>
 
 </section>
-        
+        <!-- DAILY CLOSING SCREEN -->
+<section id="dailyClosingScreen" hidden class="reports-page">
+
+    <div class="reports-header">
+        <button class="back-button" onclick="goHome()">
+            ← Back
+        </button>
+
+        <div>
+            <span class="reports-tag">DAILY BUSINESS SUMMARY</span>
+            <h1>Daily Closing</h1>
+            <p>Review your business performance before closing the day.</p>
+        </div>
+    </div>
+
+    <div class="report-results-card">
+        <div class="report-card-heading">
+            <div>
+                <span class="section-label">CLOSING DATE</span>
+                <h2 id="closingDateDisplay">Today's Summary</h2>
+                <p>Review these figures before confirming your closing.</p>
+            </div>
+            <span class="report-icon">📅</span>
+        </div>
+
+        <div id="dailyClosingSummary">
+            <p>Daily figures will appear here.</p>
+        </div>
+
+        <div class="form-group" style="margin-top:20px;">
+            <label for="closingNote">Closing Note (Optional)</label>
+            <textarea
+                id="closingNote"
+                placeholder="Enter any notes about today's business..."
+            ></textarea>
+        </div>
+
+        <button
+            type="button"
+            class="primary-button"
+            id="confirmDailyClosingBtn"
+            onclick="confirmDailyClosing()"
+        >
+            🔒 Close Business Day
+        </button>
+    </div>
+
+    <div class="report-results-card">
+        <div class="report-card-heading">
+            <div>
+                <span class="section-label">PREVIOUS RECORDS</span>
+                <h2>Closing History</h2>
+                <p>View previously completed daily closings.</p>
+            </div>
+            <span class="report-icon">📚</span>
+        </div>
+
+        <div id="dailyClosingHistory">
+            <p>No closing records yet.</p>
+        </div>
+    </div>
+
+            </section>
         <!-- NEW SALE SCREEN -->
         <section id="newSaleScreen" hidden>
 
