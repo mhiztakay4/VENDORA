@@ -140,12 +140,19 @@ async function loadAllCloudData() {
                 .select("*")
                 .eq("business_id", businessId)
                 .order("created_at", { ascending: false })
+            
+            db.from("daily_closings")
+    .select("*")
+    .eq("business_id", businessId)
+    .order("closing_date", { ascending: false })
+            
         ]);
 
         if (productsResult.error) throw productsResult.error;
         if (customersResult.error) throw customersResult.error;
         if (salesResult.error) throw salesResult.error;
         if (expensesResult.error) throw expensesResult.error;
+        if (closingResult.error) throw closingResult.error;
 
         products = productsResult.data || [];
         console.log("Vendora products:", products);
@@ -158,6 +165,15 @@ async function loadAllCloudData() {
         sales = salesResult.data || [];
         console.log("Vendora sales with item costs:", sales);
         expenses = expensesResult.data || [];
+        dailyClosings = closingResult.data || [];
+        let dailyClosings = [];
+        const [
+    productsResult,
+    customersResult,
+    salesResult,
+    expensesResult,
+    closingResult
+] = await Promise.all([
 
         cloudReady = true;
 
@@ -704,7 +720,116 @@ function generateReport() {
 function openReports() {
     showScreen("reportsScreen");
 }
+function openDailyClosing() {
+    showScreen("dailyClosingScreen");
+    loadDailyClosing();
+}
+function loadDailyClosing() {
+    const today = new Date();
+    
+    const formatDate = date => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    };
 
+    const todayString = formatDate(today);
+
+    $("closingDateDisplay").textContent =
+        today.toLocaleDateString("en-NG", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
+
+    const todaySales = sales.filter(sale =>
+        sale.created_at &&
+        formatDate(new Date(sale.created_at)) === todayString
+    );
+
+    const todayExpenses = expenses.filter(expense =>
+        expense.created_at &&
+        formatDate(new Date(expense.created_at)) === todayString
+    );
+
+    const revenue = todaySales.reduce(
+        (sum, sale) => sum + Number(sale.total || 0), 0
+    );
+
+    let costOfGoods = 0;
+
+    todaySales.forEach(sale => {
+        (sale.sale_items || []).forEach(item => {
+            costOfGoods +=
+                Number(item.cost_price || 0) *
+                Number(item.quantity || 0);
+        });
+    });
+
+    const totalExpenses = todayExpenses.reduce(
+        (sum, expense) => sum + Number(expense.amount || 0), 0
+    );
+
+    const grossProfit = revenue - costOfGoods;
+    const netProfit = grossProfit - totalExpenses;
+
+    $("dailyClosingSummary").innerHTML = `
+        <div class="financial-summary-grid">
+
+            <div class="financial-stat revenue-stat">
+                <div class="financial-stat-top">
+                    <span>Total Revenue</span>
+                    <span>💰</span>
+                </div>
+                <h3>${formatMoney(revenue)}</h3>
+            </div>
+
+            <div class="financial-stat cost-stat">
+                <div class="financial-stat-top">
+                    <span>Cost of Goods Sold</span>
+                    <span>📦</span>
+                </div>
+                <h3>${formatMoney(costOfGoods)}</h3>
+            </div>
+
+            <div class="financial-stat expense-stat">
+                <div class="financial-stat-top">
+                    <span>Operating Expenses</span>
+                    <span>💳</span>
+                </div>
+                <h3>${formatMoney(totalExpenses)}</h3>
+            </div>
+
+            <div class="financial-stat profit-stat">
+                <div class="financial-stat-top">
+                    <span>Net Profit</span>
+                    <span>📈</span>
+                </div>
+                <h3>${formatMoney(netProfit)}</h3>
+            </div>
+
+        </div>
+
+        <div class="report-extra-summary">
+            <div>
+                <span>Gross Profit</span>
+                <strong>${formatMoney(grossProfit)}</strong>
+            </div>
+
+            <div>
+                <span>Number of Sales</span>
+                <strong>${todaySales.length}</strong>
+            </div>
+
+            <div>
+                <span>Expense Transactions</span>
+                <strong>${todayExpenses.length}</strong>
+            </div>
+        </div>
+    `;
+        }
 // ==========================================
 // DASHBOARD
 // ==========================================
