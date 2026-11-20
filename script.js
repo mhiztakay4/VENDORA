@@ -148,6 +148,11 @@ async function loadAllCloudData() {
 
         products = productsResult.data || [];
         console.log("Vendora products:", products);
+        console.table(products.map(p => ({
+    name: p.name,
+    cost_price: p.cost_price,
+    selling_price: p.price
+})));
         customers = customersResult.data || [];
         sales = salesResult.data || [];
         console.log("Vendora sales with item costs:", sales);
