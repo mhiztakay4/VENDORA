@@ -380,6 +380,7 @@ function ensureLogoutButton() {
 function hideAllScreens() {
     const screens = [
         "dashboardScreen",
+        "reportsScreen",
         "newSaleScreen",
         "salesHistoryScreen",
         "productsScreen",
