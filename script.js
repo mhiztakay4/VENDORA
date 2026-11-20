@@ -27,6 +27,7 @@ let products = [];
 let customers = [];
 let sales = [];
 let expenses = [];
+let dailyClosings = [];
 let lastGeneratedReport = null;
 
 let cloudReady = false;
@@ -283,10 +284,9 @@ async function confirmDailyClosing() {
     } catch (error) {
         console.error("Daily closing error:", error);
         showAlert(error.message || "Unable to close business day.");
-    } finally {
+        } finally {
         if (button) button.disabled = false;
     }
-                           }
 }
 
 // ==========================================
