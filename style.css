@@ -1654,3 +1654,12 @@ color: #222222;
         margin-right: auto;
     }
     }
+@media print {
+    #receiptBusinessLogo {
+        width: 30px !important;
+        height: 30px !important;
+        max-width: 30px !important;
+        max-height: 30px !important;
+        object-fit: contain !important;
+    }
+}
