@@ -854,6 +854,7 @@ async function recordSale(event) {
                 product_id: item.product.id,
                 product_name: item.product.name,
                 unit_price: unitPrice,
+                cost_price: Number(item.product.cost_price || 0),
                 quantity: item.quantity,
                 line_total: unitPrice * item.quantity
             };
