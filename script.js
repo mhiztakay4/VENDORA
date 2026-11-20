@@ -563,11 +563,21 @@ function openReports() {
 // ==========================================
 
 function refreshDashboard() {
-    const totalRevenue = sales.reduce(
+    const today = new Date().toLocaleDateString("en-CA");
+
+    const todaySales = sales.filter(sale =>
+        new Date(sale.created_at).toLocaleDateString("en-CA") === today
+    );
+
+    const todayExpenses = expenses.filter(expense =>
+        new Date(expense.created_at).toLocaleDateString("en-CA") === today
+    );
+
+    const totalRevenue = todaySales.reduce(
         (sum, sale) => sum + Number(sale.total || 0), 0
     );
 
-    const totalExpenses = expenses.reduce(
+    const totalExpenses = todayExpenses.reduce(
         (sum, expense) => sum + Number(expense.amount || 0), 0
     );
 
@@ -577,7 +587,7 @@ function refreshDashboard() {
     }
 
     if ($("dashboardSales")) {
-        $("dashboardSales").textContent = sales.length;
+        $("dashboardSales").textContent = todaySales.length;
     }
 
     if ($("dashboardExpenses")) {
