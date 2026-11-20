@@ -581,9 +581,19 @@ function refreshDashboard() {
         (sum, expense) => sum + Number(expense.amount || 0), 0
     );
 
+    const costOfGoodsSold = todaySales.reduce((total, sale) => {
+        const items = sale.sale_items || [];
+
+        return total + items.reduce((itemTotal, item) => {
+            return itemTotal +
+                (Number(item.cost_price || 0) * Number(item.quantity || 0));
+        }, 0);
+    }, 0);
+
+    const dailyProfit = totalRevenue - costOfGoodsSold - totalExpenses;
+
     if ($("dashboardRevenue")) {
-        $("dashboardRevenue").textContent =
-            formatMoney(totalRevenue);
+        $("dashboardRevenue").textContent = formatMoney(totalRevenue);
     }
 
     if ($("dashboardSales")) {
@@ -591,8 +601,11 @@ function refreshDashboard() {
     }
 
     if ($("dashboardExpenses")) {
-        $("dashboardExpenses").textContent =
-            formatMoney(totalExpenses);
+        $("dashboardExpenses").textContent = formatMoney(totalExpenses);
+    }
+
+    if ($("dashboardProfit")) {
+        $("dashboardProfit").textContent = formatMoney(dailyProfit);
     }
 
     if ($("dashboardProducts")) {
