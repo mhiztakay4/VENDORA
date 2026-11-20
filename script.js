@@ -27,6 +27,7 @@ let products = [];
 let customers = [];
 let sales = [];
 let expenses = [];
+let lastGeneratedReport = null;
 
 let cloudReady = false;
 
