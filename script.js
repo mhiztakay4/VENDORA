@@ -620,6 +620,18 @@ function generateReport() {
 
     const grossProfit = revenue - costOfGoods;
     const netProfit = grossProfit - totalExpenses;
+    lastGeneratedReport = {
+    startDate,
+    endDate,
+    revenue,
+    costOfGoods,
+    grossProfit,
+    totalExpenses,
+    netProfit,
+    sales: reportSales,
+    expenses: reportExpenses,
+    missingCostRecords
+};
 
     $("reportResults").innerHTML = `
         <h2>Report Summary</h2>
@@ -2204,4 +2216,80 @@ function testPrintReceipt() {
     setTimeout(() => {
         printReceipt();
     }, 500);
+}
+function downloadReport(type) {
+    if (!lastGeneratedReport) {
+        showAlert("Please generate a report first.");
+        return;
+    }
+
+    if (type !== "csv") {
+        showAlert("This download format will be added next.");
+        return;
+    }
+
+    const report = lastGeneratedReport;
+
+    const rows = [
+        ["VENDORA BUSINESS REPORT"],
+        ["Period", `${report.startDate} to ${report.endDate}`],
+        [],
+        ["Metric", "Amount"],
+        ["Total Revenue", report.revenue],
+        ["Cost of Goods Sold", report.costOfGoods],
+        ["Gross Profit", report.grossProfit],
+        ["Operating Expenses", report.totalExpenses],
+        ["Net Profit", report.netProfit],
+        ["Number of Sales", report.sales.length],
+        [],
+        ["SALES DETAILS"],
+        ["Date", "Customer", "Amount"]
+    ];
+
+    report.sales.forEach(sale => {
+        rows.push([
+            sale.created_at || "",
+            sale.customer_name || "Walk-in Customer",
+            Number(sale.total || 0)
+        ]);
+    });
+
+    rows.push(
+        [],
+        ["EXPENSE DETAILS"],
+        ["Date", "Description", "Category", "Amount"]
+    );
+
+    report.expenses.forEach(expense => {
+        rows.push([
+            expense.created_at || "",
+            expense.description || "",
+            expense.category || "",
+            Number(expense.amount || 0)
+        ]);
+    });
+
+    const csv = rows.map(row =>
+        row.map(value =>
+            `"${String(value ?? "").replace(/"/g, '""')}"`
+        ).join(",")
+    ).join("\r\n");
+
+    const blob = new Blob(
+        ["\uFEFF" + csv],
+        { type: "text/csv;charset=utf-8;" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download =
+        `Vendora-Report-${report.startDate}-to-${report.endDate}.csv`;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
