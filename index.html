@@ -221,51 +221,37 @@
 
             </section>
 
-            <section class="quick-section">
-                <h2>Quick Actions</h2>
+            <div class="action-grid">
+    <button onclick="openNewSale()">
+        <span>＋</span>
+        New Sale
+    </button>
 
-                <div class="action-grid">
+    <button onclick="openAddProduct()">
+        <span>📦</span>
+        Add Product
+    </button>
 
-                    <button onclick="showMessage('New Sale')">
-                        <span>＋</span>
-                        New Sale
-                    </button>
+    <button onclick="openExpenses()">
+        <span>💳</span>
+        Expenses
+    </button>
 
-                    <button onclick="showMessage('Add Product')">
-                        <span>📦</span>
-                        Add Product
-                    </button>
+    <button onclick="openAddCustomer()">
+        <span>👤</span>
+        Add Customer
+    </button>
 
-                    <button onclick="showMessage('Expenses')">
-    <span>💳</span>
-    Expenses
-</button>
+    <button onclick="openReports()">
+        <span>📊</span>
+        Reports
+    </button>
 
-                    <button onclick="showMessage('Add Customer')">
-                        <span>👤</span>
-                        Add Customer
-                    </button>
-
-                    <button onclick="openReports()">
-    <span>📊</span>
-    Reports
-                    </button>
-                    <button onclick="openDailyClosing()">
-    <span>🔒</span>
-    Daily Closing
-                    </button>
-                </div>
-            </section>
-
-            <section class="transactions">
-                <h2>Recent Transactions</h2>
-
-                <div id="recentTransactions">
-                    <p>No transactions recorded yet.</p>
-                </div>
-            </section>
-
-        </section>
+    <button onclick="openDailyClosing()">
+        <span>🔒</span>
+        Daily Closing
+    </button>
+            </div>
 
 <!-- REPORTS SCREEN -->
 <!-- REPORTS SCREEN -->
