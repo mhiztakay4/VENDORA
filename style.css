@@ -617,11 +617,21 @@ body {
 .receipt-header {
     text-align: center;
 }
-#vendoraReceipt .receipt-header p {
+.receipt-business-header {
+    text-align: center;
+    line-height: 1.4;
+}
+
+.receipt-business-header p {
     display: inline;
-    font-size: 8px;
-    line-height: 1.3;
+    font-size: 8px !important;
     margin: 0;
+    padding: 0;
+}
+
+.receipt-business-header p:not(:last-child)::after {
+    content: " | ";
+    font-weight: bold;
 }
 
 #vendoraReceipt .receipt-header p:not(:last-child)::after {
