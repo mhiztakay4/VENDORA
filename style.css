@@ -2257,3 +2257,11 @@ color: #222222;
         padding: 12px;
     }
     }
+/* Centre the fifth dashboard statistics card on mobile */
+@media (max-width: 767px) {
+    #dashboardScreen .stats-grid .stat-card:last-child {
+        grid-column: 1 / -1;
+        width: calc(50% - 6px);
+        justify-self: center;
+    }
+}
