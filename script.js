@@ -1770,9 +1770,25 @@ function printReceipt() {
             }
 
             p {
-                margin: 5px 0;
-            }
+    margin: 5px 0;
+}
 
+#receiptContent .receipt-business-header {
+    text-align: center;
+    line-height: 1.4;
+}
+
+#receiptContent .receipt-business-header p {
+    display: inline;
+    font-size: 8px !important;
+    margin: 0;
+    padding: 0;
+}
+
+#receiptContent .receipt-business-header p:not(:last-child)::after {
+    content: " | ";
+    font-weight: bold;
+}
             hr {
                 border: none;
                 border-top: 1px dashed #777;
