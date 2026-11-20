@@ -118,7 +118,8 @@ async function loadAllCloudData() {
             productsResult,
             customersResult,
             salesResult,
-            expensesResult
+            expensesResult,
+            closingResult
         ] = await Promise.all([
 
             db.from("products")
@@ -139,13 +140,13 @@ async function loadAllCloudData() {
             db.from("expenses")
                 .select("*")
                 .eq("business_id", businessId)
-                .order("created_at", { ascending: false })
-            
+                .order("created_at", { ascending: false }),
+
             db.from("daily_closings")
-    .select("*")
-    .eq("business_id", businessId)
-    .order("closing_date", { ascending: false })
-            
+                .select("*")
+                .eq("business_id", businessId)
+                .order("closing_date", { ascending: false })
+
         ]);
 
         if (productsResult.error) throw productsResult.error;
@@ -155,25 +156,14 @@ async function loadAllCloudData() {
         if (closingResult.error) throw closingResult.error;
 
         products = productsResult.data || [];
-        console.log("Vendora products:", products);
-        console.table(products.map(p => ({
-    name: p.name,
-    cost_price: p.cost_price,
-    selling_price: p.price
-})));
         customers = customersResult.data || [];
         sales = salesResult.data || [];
-        console.log("Vendora sales with item costs:", sales);
         expenses = expensesResult.data || [];
         dailyClosings = closingResult.data || [];
-        let dailyClosings = [];
-        const [
-    productsResult,
-    customersResult,
-    salesResult,
-    expensesResult,
-    closingResult
-] = await Promise.all([
+
+        console.log("Vendora products:", products);
+        console.log("Vendora sales with item costs:", sales);
+        console.log("Vendora daily closings:", dailyClosings);
 
         cloudReady = true;
 
@@ -186,36 +176,9 @@ async function loadAllCloudData() {
 
         showAlert(
             "Unable to load business data. Check your internet connection and try again."
-   // DISPLAY DAILY CLOSING HISTORY
-
-const historyContainer = $("dailyClosingHistory");
-
-if (historyContainer) {
-    if (!dailyClosings || dailyClosings.length === 0) {
-        historyContainer.innerHTML = `
-            <div class="report-empty-state">
-                <span>📚</span>
-                <h3>No closing records yet</h3>
-                <p>Your completed daily closings will appear here.</p>
-            </div>
-        `;
-    } else {
-        historyContainer.innerHTML = dailyClosings.map(closing => `
-            <div class="financial-stat" style="margin-bottom:12px;">
-                <div class="financial-stat-top">
-                    <span>${closing.closing_date}</span>
-                    <span>🔒</span>
-                </div>
-                <h3>${formatMoney(closing.net_profit)}</h3>
-                <small>
-                    Revenue: ${formatMoney(closing.total_revenue)}
-                    · Sales: ${closing.sales_count}
-                </small>
-            </div>
-        `).join("");
+        );
     }
-}     );
-    }
+            }
 async function confirmDailyClosing() {
     if (!currentBusiness) {
         showAlert("Please log in to your business account.");
