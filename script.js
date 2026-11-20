@@ -538,7 +538,98 @@ function openAddCustomer() {
 function addCustomerFromScreen() {
     openAddCustomer();
 }
+function generateReport() {
+    const period = $("reportPeriod")?.value;
+    const today = new Date();
 
+    const formatDate = date => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    };
+
+    let startDate;
+    let endDate;
+
+    if (period === "custom") {
+        startDate = $("reportStartDate")?.value;
+        endDate = $("reportEndDate")?.value;
+
+        if (!startDate || !endDate || startDate > endDate) {
+            showAlert("Please select a valid start and end date.");
+            return;
+        }
+    } else if (period === "daily") {
+        startDate = formatDate(today);
+        endDate = startDate;
+    } else if (period === "weekly") {
+        const monday = new Date(today);
+        const day = monday.getDay();
+        monday.setDate(monday.getDate() - (day === 0 ? 6 : day - 1));
+
+        startDate = formatDate(monday);
+        endDate = formatDate(today);
+    } else if (period === "monthly") {
+        startDate = formatDate(new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            1
+        ));
+        endDate = formatDate(today);
+    }
+
+    const inRange = record => {
+        if (!record.created_at) return false;
+        const date = formatDate(new Date(record.created_at));
+        return date >= startDate && date <= endDate;
+    };
+
+    const reportSales = sales.filter(inRange);
+    const reportExpenses = expenses.filter(inRange);
+
+    const revenue = reportSales.reduce(
+        (sum, sale) => sum + Number(sale.total || 0), 0
+    );
+
+    let costOfGoods = 0;
+    let missingCostRecords = false;
+
+    reportSales.forEach(sale => {
+        (sale.sale_items || []).forEach(item => {
+            const cost = Number(item.cost_price || 0);
+
+            if (cost <= 0) {
+                missingCostRecords = true;
+            }
+
+            costOfGoods += cost * Number(item.quantity || 0);
+        });
+    });
+
+    const totalExpenses = reportExpenses.reduce(
+        (sum, expense) => sum + Number(expense.amount || 0), 0
+    );
+
+    const grossProfit = revenue - costOfGoods;
+    const netProfit = grossProfit - totalExpenses;
+
+    $("reportResults").innerHTML = `
+        <h2>Report Summary</h2>
+        <p><strong>Period:</strong> ${startDate} to ${endDate}</p>
+        <p><strong>Total Revenue:</strong> ${formatMoney(revenue)}</p>
+        <p><strong>Cost of Goods Sold:</strong> ${formatMoney(costOfGoods)}</p>
+        <p><strong>Gross Profit:</strong> ${formatMoney(grossProfit)}</p>
+        <p><strong>Operating Expenses:</strong> ${formatMoney(totalExpenses)}</p>
+        <p><strong>Net Profit:</strong> ${formatMoney(netProfit)}</p>
+        <p><strong>Number of Sales:</strong> ${reportSales.length}</p>
+        ${
+            missingCostRecords
+                ? "<p>Note: Some products have missing or zero recorded cost prices. Profit may be overstated.</p>"
+                : ""
+        }
+    `;
+        }
 function openReports() {
     showScreen("reportsScreen");
 }
