@@ -634,20 +634,72 @@ function generateReport() {
 };
 
     $("reportResults").innerHTML = `
-        <h2>Report Summary</h2>
-        <p><strong>Period:</strong> ${startDate} to ${endDate}</p>
-        <p><strong>Total Revenue:</strong> ${formatMoney(revenue)}</p>
-        <p><strong>Cost of Goods Sold:</strong> ${formatMoney(costOfGoods)}</p>
-        <p><strong>Gross Profit:</strong> ${formatMoney(grossProfit)}</p>
-        <p><strong>Operating Expenses:</strong> ${formatMoney(totalExpenses)}</p>
-        <p><strong>Net Profit:</strong> ${formatMoney(netProfit)}</p>
-        <p><strong>Number of Sales:</strong> ${reportSales.length}</p>
-        ${
-            missingCostRecords
-                ? "<p>Note: Some products have missing or zero recorded cost prices. Profit may be overstated.</p>"
-                : ""
-        }
-    `;
+    <div class="report-period-label">
+        <span>📅 REPORTING PERIOD</span>
+        <strong>${startDate} — ${endDate}</strong>
+    </div>
+
+    <div class="financial-summary-grid">
+
+        <div class="financial-stat revenue-stat">
+            <div class="financial-stat-top">
+                <span>Total Revenue</span>
+                <span class="financial-stat-icon">💰</span>
+            </div>
+            <h3>${formatMoney(revenue)}</h3>
+            <small>Money received from sales</small>
+        </div>
+
+        <div class="financial-stat cost-stat">
+            <div class="financial-stat-top">
+                <span>Cost of Goods Sold</span>
+                <span class="financial-stat-icon">📦</span>
+            </div>
+            <h3>${formatMoney(costOfGoods)}</h3>
+            <small>Cost of products sold</small>
+        </div>
+
+        <div class="financial-stat expense-stat">
+            <div class="financial-stat-top">
+                <span>Operating Expenses</span>
+                <span class="financial-stat-icon">💳</span>
+            </div>
+            <h3>${formatMoney(totalExpenses)}</h3>
+            <small>Business expenses</small>
+        </div>
+
+        <div class="financial-stat profit-stat">
+            <div class="financial-stat-top">
+                <span>Net Profit</span>
+                <span class="financial-stat-icon">📈</span>
+            </div>
+            <h3>${formatMoney(netProfit)}</h3>
+            <small>Profit after all costs</small>
+        </div>
+
+    </div>
+
+    <div class="report-extra-summary">
+        <div>
+            <span>Gross Profit</span>
+            <strong>${formatMoney(grossProfit)}</strong>
+        </div>
+
+        <div>
+            <span>Number of Sales</span>
+            <strong>${reportSales.length}</strong>
+        </div>
+    </div>
+
+    ${
+        missingCostRecords
+            ? `<div class="report-warning">
+                ⚠️ Some products have missing or zero recorded cost prices.
+                Profit may be overstated.
+               </div>`
+            : ""
+    }
+`;
         }
 function openReports() {
     showScreen("reportsScreen");
