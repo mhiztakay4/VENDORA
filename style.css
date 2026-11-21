@@ -2577,3 +2577,271 @@ margin-top: 3px;
         font-size: 25px;
     }
 }
+/* =====================================
+   VENDORA: EXPENSES MANAGEMENT
+===================================== */
+
+#expensesScreen,
+#customersScreen {
+    padding-bottom: 30px;
+}
+
+/* Page headings */
+#expensesScreen .page-heading,
+#customersScreen .page-heading {
+    margin-bottom: 28px;
+}
+
+#expensesScreen .page-heading h2,
+#customersScreen .page-heading h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #f8fafc;
+    margin-bottom: 8px;
+}
+
+#expensesScreen .page-heading p,
+#customersScreen .page-heading p {
+    color: #a8b6ce;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* Summary cards */
+#expensesScreen .sales-summary-grid,
+#customersScreen .sales-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin: 24px 0;
+}
+
+#customersScreen .sales-summary-grid {
+    grid-template-columns: 1fr;
+}
+
+#expensesScreen .sales-summary-card,
+#customersScreen .sales-summary-card {
+    background: linear-gradient(145deg, #14243b, #0e1a2e);
+    border: 1px solid #294361;
+    border-radius: 20px;
+    padding: 22px 18px;
+    min-height: 125px;
+}
+
+#expensesScreen .sales-summary-card span,
+#customersScreen .sales-summary-card span {
+    color: #a8b6ce;
+    font-size: 14px;
+}
+
+#expensesScreen .sales-summary-card h2,
+#customersScreen .sales-summary-card h3 {
+    color: #08d6a0;
+    font-size: 27px;
+    font-weight: 800;
+    margin-top: 12px;
+}
+
+/* Search boxes */
+#expensesScreen .sales-search,
+#customersScreen .sales-search {
+    margin: 22px 0;
+}
+
+#expensesScreen .sales-search input,
+#customersScreen .sales-search input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 17px 20px;
+    border-radius: 17px;
+    border: 1px solid #294361;
+    background: #14243b;
+    color: #ffffff;
+    font-size: 15px;
+    outline: none;
+}
+
+#expensesScreen .sales-search input:focus,
+#customersScreen .sales-search input:focus {
+    border-color: #08d6a0;
+    box-shadow: 0 0 0 3px rgba(8, 214, 160, 0.12);
+}
+
+#expensesScreen .sales-search input::placeholder,
+#customersScreen .sales-search input::placeholder {
+    color: #9baac2;
+}
+
+/* Add expense and customer buttons */
+#expensesScreen > .primary-button,
+#customersScreen > .primary-button {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(110deg, #08c99b, #00b98a);
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 800;
+    margin: 0 0 22px;
+    box-shadow: 0 8px 20px rgba(0, 201, 155, 0.12);
+}
+
+#expensesScreen > .primary-button:active,
+#customersScreen > .primary-button:active {
+    transform: scale(0.98);
+}
+
+/* History and directory containers */
+#expensesScreen .sales-history-container,
+#customersScreen .sales-history-container {
+    background: linear-gradient(145deg, #12233a, #0d192c);
+    border: 1px solid #294361;
+    border-radius: 21px;
+    padding: 18px;
+    margin-top: 20px;
+}
+
+#expensesScreen .sales-history-container h3,
+#customersScreen .sales-history-container h3 {
+    color: #f8fafc;
+    font-size: 21px;
+    margin-bottom: 18px;
+}
+
+/* =====================================
+   CUSTOMER DIRECTORY
+===================================== */
+
+#customersScreen .customer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+    background: #0b192c;
+    border: 1px solid #263e5c;
+    border-radius: 17px;
+}
+
+#customersScreen .customer-item:last-child {
+    margin-bottom: 0;
+}
+
+#customersScreen .customer-item > div {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+#customersScreen .customer-item strong {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+#customersScreen .customer-item small {
+    color: #a8b6ce;
+    font-size: 13px;
+}
+
+/* Customer delete button */
+#customersScreen .customer-item button {
+    flex-shrink: 0;
+    padding: 11px 14px;
+    border: none;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #f43f50, #dc1736);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+/* =====================================
+   EXPENSE HISTORY
+===================================== */
+
+#expensesScreen .expense-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #0b192c;
+    border: 1px solid #263e5c;
+    border-radius: 17px;
+}
+
+#expensesScreen .expense-item > div {
+    flex: 1 1 140px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+#expensesScreen .expense-item > div strong {
+    color: #ffffff;
+    font-size: 15px;
+}
+
+#expensesScreen .expense-item small {
+    color: #a8b6ce;
+    font-size: 12px;
+}
+
+#expensesScreen .expense-item > strong {
+    color: #08d6a0;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+/* Expense delete button */
+#expensesScreen .expense-item button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f43f50, #dc1736);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* Button interaction */
+#customersScreen .customer-item button:active,
+#expensesScreen .expense-item button:active {
+    transform: scale(0.96);
+}
+
+/* Empty states */
+#customersScreen #customersList > p,
+#expensesScreen #expensesList > p {
+    color: #a8b6ce;
+    text-align: center;
+    padding: 25px 10px;
+    line-height: 1.6;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 380px) {
+    #expensesScreen .sales-summary-card,
+    #customersScreen .sales-summary-card {
+        padding: 16px 12px;
+    }
+
+    #customersScreen .customer-item {
+        padding: 12px;
+    }
+
+    #customersScreen .customer-item button {
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+}
