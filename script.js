@@ -642,7 +642,28 @@ function openAddProduct() {
 
     form.hidden = false;
 }
+function closeAddProductForm() {
+    const form = document.getElementById("addProductForm");
+    const productForm = document.getElementById("productForm");
 
+    form.hidden = true;
+    productForm.reset();
+}
+
+document.getElementById("productForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const name = document.getElementById("newProductName").value;
+    const costPrice = document.getElementById("newProductCost").value;
+    const price = document.getElementById("newProductPrice").value;
+    const stock = document.getElementById("newProductStock").value;
+
+    const saved = await addProduct(name, costPrice, price, stock);
+
+    if (saved) {
+        closeAddProductForm();
+    }
+});
 function openAddCustomer() {
     const name = prompt("Enter customer name:");
     if (name === null) return;
