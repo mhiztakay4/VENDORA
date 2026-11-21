@@ -1468,51 +1468,51 @@ function filterSalesHistory() {
 // ==========================================
 
 async function addProduct(name, costPrice, price, stock) {
-if (!currentBusiness || !cloudReady) {
-showAlert("Please log in before adding products.");
-return;
+    if (!currentBusiness || !cloudReady) {
+        showAlert("Please log in before adding products.");
+        return false;
+    }
+
+    name = String(name || "").trim();
+    costPrice = Number(costPrice);
+    price = Number(price);
+    stock = Number(stock);
+
+    if (
+        !name ||
+        !Number.isFinite(costPrice) || costPrice < 0 ||
+        !Number.isFinite(price) || price <= 0 ||
+        !Number.isInteger(stock) || stock < 0
+    ) {
+        showAlert("Enter valid product details.");
+        return false;
+    }
+
+    try {
+        const { error } = await db
+            .from("products")
+            .insert({
+                business_id: currentBusiness.id,
+                name,
+                cost_price: costPrice,
+                price,
+                stock
+            });
+
+        if (error) throw error;
+
+        await loadAllCloudData();
+        renderProducts();
+
+        showAlert("Product added successfully!");
+        return true;
+
+    } catch (error) {
+        console.error("Add product error:", error);
+        showAlert("Unable to add product: " + (error.message || "Please try again."));
+        return false;
+    }
 }
-
-name = String(name || "").trim();
-costPrice = Number(costPrice);
-price = Number(price);
-stock = Number(stock);
-
-if (
-    !name ||
-    !Number.isFinite(costPrice) || costPrice < 0 ||
-    !Number.isFinite(price) || price <= 0 ||
-    !Number.isInteger(stock) || stock < 0
-) {
-    showAlert("Enter valid product details.");
-    return;
-}
-
-try {
-    const { error } = await db
-        .from("products")
-        .insert({
-            business_id: currentBusiness.id,
-            name,
-            cost_price: costPrice,
-            price,
-            stock
-        });
-
-    if (error) throw error;
-
-    await loadAllCloudData();
-    renderProducts();
-
-    showAlert("Product added successfully!");
-
-} catch (error) {
-    console.error("Add product error:", error);
-    showAlert("Unable to add product: " + (error.message || "Please try again."));
-}
-
-}
-
 async function deleteProduct(productId) {
     if (!confirm("Are you sure you want to delete this product?")) {
         return;
