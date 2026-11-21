@@ -1419,57 +1419,53 @@ async function recordSale(event) {
 function renderSalesHistory(searchTerm = "") {
     const container = $("salesHistoryList");
     if (!container) return;
-    
+
     const search = searchTerm.toLowerCase();
-    
+
     const filtered = sales.filter(sale =>
-        String(sale.customer_name || "").toLowerCase().includes(search)
+        String(sale.customer_name || "")
+            .toLowerCase()
+            .includes(search)
     );
-    
+
     const totalRevenue = sales.reduce(
         (sum, sale) => sum + Number(sale.total || 0), 0
     );
-    
+
     if ($("historyTotalRevenue")) {
         $("historyTotalRevenue").textContent = formatMoney(totalRevenue);
     }
-    
+
     if ($("historyTotalTransactions")) {
         $("historyTotalTransactions").textContent = sales.length;
     }
-    
+
     if (filtered.length === 0) {
         container.innerHTML = "<p>No sales found.</p>";
         return;
     }
-    
+
     container.innerHTML = filtered.map(sale => `
-    <div class="transaction-item">
-        <div class="transaction-info">
-            <strong>${escapeHTML(sale.customer_name || "Walk-in Customer")}</strong>
-            <small>${formatDateTime(sale.created_at)}</small>
-            <strong class="sale-amount">${formatMoney(sale.total)}</strong>
+        <div class="transaction-item"
+             role="button"
+             tabindex="0"
+             onclick="viewSaleReceipt('${sale.id}')"
+             onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();viewSaleReceipt('${sale.id}')}">
+
+            <div class="transaction-info">
+                <strong>${escapeHTML(sale.customer_name || "Walk-in Customer")}</strong>
+                <small>${formatDateTime(sale.created_at)}</small>
+                <strong class="sale-amount">${formatMoney(sale.total)}</strong>
+            </div>
+
+            <div class="transaction-hint">
+                <span>🧾</span>
+                <small>Tap to view receipt and transaction details</small>
+                <span>›</span>
+            </div>
         </div>
-
-        <div class="transaction-actions">
-            <button type="button" class="receipt-view-btn"
-                onclick="viewSaleReceipt('${sale.id}')">
-                👁 View Receipt
-            </button>
-
-            <button type="button" class="receipt-print-btn"
-                onclick="reprintSaleReceipt('${sale.id}')">
-                🖨 Reprint
-            </button>
-
-            <button type="button" class="receipt-download-btn"
-                onclick="downloadSaleReceipt('${sale.id}')">
-                ⬇ Download
-            </button>
-        </div>
-    </div>
-`).join("");
-}
+    `).join("");
+            }
 
 function filterSalesHistory() {
     renderSalesHistory($("salesSearch")?.value || "");
