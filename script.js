@@ -633,20 +633,14 @@ function closeExpensesScreen() {
 // ==========================================
 
 function openAddProduct() {
-const name = prompt("Enter product name:");
-if (name === null) return;
+    const form = document.getElementById("addProductForm");
 
-const costPrice = prompt("Enter product cost price:");
-if (costPrice === null) return;
+    if (!form) {
+        showAlert("Product form not found.");
+        return;
+    }
 
-const price = prompt("Enter selling price:");
-if (price === null) return;
-
-const stock = prompt("Enter available quantity:");
-if (stock === null) return;
-
-addProduct(name, costPrice, price, stock);
-
+    form.hidden = false;
 }
 
 function openAddCustomer() {
