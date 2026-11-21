@@ -2288,3 +2288,38 @@ color: #222222;
     background: #fee2e2;
     color: #991b1b;
         }
+.stock-alert-section {
+    margin: 20px 0;
+    padding: 18px;
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #f1d5a5;
+}
+
+.stock-alert-heading h2 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.stock-alert-heading p {
+    font-size: 13px;
+    color: #777;
+}
+
+.dashboard-stock-alert {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.dashboard-stock-alert:last-child {
+    border-bottom: none;
+}
+
+.dashboard-stock-alert small {
+    display: block;
+    margin-top: 5px;
+    color: #777;
+}
