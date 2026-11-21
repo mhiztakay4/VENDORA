@@ -168,8 +168,8 @@ async function loadAllCloudData() {
 
         cloudReady = true;
 
-        refreshDashboard();
-
+refreshDashboard();
+renderDashboardStockAlerts();
     } catch (error) {
         console.error("Cloud loading error:", error);
 
