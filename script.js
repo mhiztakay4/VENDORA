@@ -634,13 +634,24 @@ function closeExpensesScreen() {
 
 function openAddProduct() {
     const form = document.getElementById("addProductForm");
+    const productsScreen = document.getElementById("productsScreen");
 
-    if (!form) {
+    if (!form || !productsScreen) {
         showAlert("Product form not found.");
         return;
     }
 
+    // Hide other screens and open Product Inventory
+    showScreen("productsScreen");
+
+    // Display Add Product form
     form.hidden = false;
+
+    // Scroll to the form
+    form.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
 }
 function closeAddProductForm() {
     const form = document.getElementById("addProductForm");
