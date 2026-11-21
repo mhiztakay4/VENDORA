@@ -2938,3 +2938,40 @@ if (type !== "csv") {
 
     setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
+function renderDashboardStockAlerts() {
+    const section = $("dashboardStockAlerts");
+    const container = $("dashboardStockAlertsList");
+
+    if (!section || !container) return;
+
+    const alerts = products.filter(product =>
+        Number(product.stock || 0) <= 5
+    );
+
+    if (alerts.length === 0) {
+        section.hidden = true;
+        return;
+    }
+
+    section.hidden = false;
+
+    container.innerHTML = alerts.map(product => {
+        const stock = Number(product.stock || 0);
+        const isOut = stock <= 0;
+
+        return `
+            <div class="dashboard-stock-alert">
+                <div>
+                    <strong>${escapeHTML(product.name)}</strong>
+                    <small>
+                        ${isOut ? "Out of Stock" : "Only " + stock + " units remaining"}
+                    </small>
+                </div>
+
+                <span class="${isOut ? "out-of-stock" : "low-stock"}">
+                    ${isOut ? "OUT" : "LOW"}
+                </span>
+            </div>
+        `;
+    }).join("");
+}
