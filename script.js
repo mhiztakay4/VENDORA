@@ -1552,68 +1552,95 @@ async function deleteProduct(productId) {
 function renderProducts(searchTerm = "") {
     const container = $("productsList");
     if (!container) return;
-    
+
     const search = searchTerm.toLowerCase();
-    
+
     const filtered = products.filter(product =>
         String(product.name || "").toLowerCase().includes(search)
     );
-    
+
     const lowStock = products.filter(product =>
         Number(product.stock || 0) > 0 &&
         Number(product.stock || 0) <= 5
     ).length;
-    
+
     const outOfStock = products.filter(product =>
-        Number(product.stock || 0) === 0
+        Number(product.stock || 0) <= 0
     ).length;
-    
+
     const totalUnits = products.reduce(
         (sum, product) => sum + Number(product.stock || 0), 0
     );
-    
+
     if ($("inventoryTotalProducts"))
         $("inventoryTotalProducts").textContent = products.length;
-    
+
     if ($("inventoryLowStock"))
         $("inventoryLowStock").textContent = lowStock;
-    
+
     if ($("inventoryOutOfStock"))
         $("inventoryOutOfStock").textContent = outOfStock;
-    
+
     if ($("inventoryTotalUnits"))
         $("inventoryTotalUnits").textContent = totalUnits;
-    
+
     if (filtered.length === 0) {
         container.innerHTML = "<p>No products found.</p>";
         return;
     }
-    
-    container.innerHTML = filtered.map(product => `
-<div class="product-item">
-<div>
-<strong>${escapeHTML(product.name)}</strong>
-<small>
-Cost: ${formatMoney(product.cost_price || 0)}
-· Selling: ${formatMoney(product.price)}
-· Stock: ${Number(product.stock || 0)}
-</small>
-</div>
 
-    <div class="product-actions">
-        <button type="button"
-            onclick="editProduct('${product.id}')">
-            Edit
-        </button>
+    container.innerHTML = filtered.map(product => {
 
-        <button type="button"
-            onclick="deleteProduct('${product.id}')">
-            Delete
-        </button>
-    </div>
-</div>
+        const stock = Number(product.stock || 0);
 
-`).join("");
+        let stockStatus = "";
+        let statusClass = "";
+
+        if (stock <= 0) {
+            stockStatus = "Out of Stock";
+            statusClass = "out-of-stock";
+        } else if (stock <= 5) {
+            stockStatus = "Low Stock";
+            statusClass = "low-stock";
+        } else {
+            stockStatus = "In Stock";
+            statusClass = "in-stock";
+        }
+
+        return `
+            <div class="product-item">
+
+                <div>
+                    <strong>${escapeHTML(product.name)}</strong>
+
+                    <small>
+                        Cost: ${formatMoney(product.cost_price || 0)}
+                        · Selling: ${formatMoney(product.price)}
+                        · Stock: ${stock}
+                    </small>
+
+                    <span class="stock-badge ${statusClass}">
+                        ${stockStatus}
+                    </span>
+                </div>
+
+                <div class="product-actions">
+
+                    <button type="button"
+                        onclick="editProduct('${product.id}')">
+                        Edit
+                    </button>
+
+                    <button type="button"
+                        onclick="deleteProduct('${product.id}')">
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+    }).join("");
 }
 
 function filterProducts() {
