@@ -2407,3 +2407,173 @@ padding: 9px 0;
 .dashboard-stock-alert small {
 margin-top: 3px;
 }
+/* =================================
+   VENDORA PREMIUM SCREEN UPGRADES
+================================= */
+
+/* PAGE HEADINGS */
+#salesHistoryScreen .page-heading,
+#customersScreen .page-heading,
+#productsScreen .page-heading,
+#accountScreen .page-heading {
+    margin-bottom: 28px;
+}
+
+#salesHistoryScreen .page-heading h1,
+#customersScreen .page-heading h1,
+#customersScreen .page-heading h2,
+#productsScreen .page-heading h1,
+#accountScreen .page-heading h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 22px 0 8px;
+}
+
+#salesHistoryScreen .page-heading p,
+#customersScreen .page-heading p,
+#productsScreen .page-heading p,
+#accountScreen .page-heading p {
+    color: #aeb8c8;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* SUMMARY CARDS */
+#salesHistoryScreen .sales-summary-card,
+#customersScreen .sales-summary-card,
+#productsScreen .sales-summary-card {
+    background: #1e2b3e;
+    border: 1px solid #304057;
+    border-radius: 18px;
+    padding: 22px;
+}
+
+#salesHistoryScreen .sales-summary-card span,
+#customersScreen .sales-summary-card span,
+#productsScreen .sales-summary-card span {
+    color: #b9c3d1;
+}
+
+#salesHistoryScreen .sales-summary-card h2,
+#customersScreen .sales-summary-card h3,
+#productsScreen .sales-summary-card h2 {
+    color: #20c997;
+    font-size: 25px;
+    font-weight: 800;
+    margin-top: 10px;
+}
+
+/* SEARCH INPUTS */
+#salesHistoryScreen .sales-search input,
+#customersScreen .sales-search input,
+#productsScreen .sales-search input {
+    width: 100%;
+    background: #1e2b3e;
+    border: 1px solid #34445c;
+    border-radius: 14px;
+    padding: 17px;
+    color: #ffffff;
+    font-size: 15px;
+    outline: none;
+}
+
+#salesHistoryScreen .sales-search input:focus,
+#customersScreen .sales-search input:focus,
+#productsScreen .sales-search input:focus {
+    border-color: #20c997;
+}
+
+/* LIST CONTAINERS */
+#salesHistoryScreen .sales-history-container,
+#customersScreen .sales-history-container,
+#productsScreen .sales-history-container {
+    background: #1e2b3e;
+    border: 1px solid #304057;
+    border-radius: 20px;
+    padding: 22px;
+    margin-top: 22px;
+}
+
+#salesHistoryScreen .sales-history-heading h2,
+#customersScreen .sales-history-container h3,
+#productsScreen .sales-history-heading h2 {
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+
+/* TRANSACTION, CUSTOMER AND PRODUCT CARDS */
+#salesHistoryList > div,
+#customersList > div,
+#productsList > div {
+    background: #131e30;
+    border: 1px solid #34445c;
+    border-radius: 17px;
+    padding: 18px;
+    margin: 14px 0;
+    color: #ffffff;
+}
+
+/* PROFILE FORM */
+#accountScreen .form-card {
+    background: #1e2b3e;
+    border: 1px solid #304057;
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 22px;
+}
+
+#accountScreen .form-group label {
+    color: #e0e6ef;
+    font-weight: 700;
+}
+
+#accountScreen input,
+#accountScreen textarea {
+    width: 100%;
+    background: #131e30;
+    border: 1px solid #34445c;
+    border-radius: 13px;
+    padding: 16px;
+    color: #ffffff;
+    font-size: 15px;
+}
+
+#accountScreen textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+#accountScreen input:focus,
+#accountScreen textarea:focus {
+    border-color: #20c997;
+    outline: none;
+}
+
+/* BUTTONS */
+#salesHistoryScreen button,
+#customersScreen button,
+#productsScreen button,
+#accountScreen button {
+    border-radius: 12px;
+}
+
+/* MOBILE SPACING */
+@media (max-width: 600px) {
+    #salesHistoryScreen .sales-history-container,
+    #customersScreen .sales-history-container,
+    #productsScreen .sales-history-container,
+    #accountScreen .form-card {
+        padding: 16px;
+    }
+
+    #salesHistoryScreen .page-heading h1,
+    #customersScreen .page-heading h1,
+    #customersScreen .page-heading h2,
+    #productsScreen .page-heading h1,
+    #accountScreen .page-heading h1 {
+        font-size: 25px;
+    }
+}
