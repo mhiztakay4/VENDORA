@@ -1808,6 +1808,9 @@ async function deleteCustomer(customerId) {
     }
 }
 
+let customersPage = 1;
+const CUSTOMERS_PER_PAGE = 3;
+
 function renderCustomers(searchTerm = "") {
     const container = $("customersList");
     if (!container) return;
@@ -1828,21 +1831,63 @@ function renderCustomers(searchTerm = "") {
         return;
     }
 
-    container.innerHTML = filtered.map(customer => `
-        <div class="customer-item">
-            <div>
-                <strong>${escapeHTML(customer.name)}</strong>
-                <small>${escapeHTML(customer.phone || "No phone number")}</small>
-            </div>
-            <button type="button"
-                onclick="deleteCustomer('${customer.id}')">
-                Delete
-            </button>
+    const totalPages = Math.ceil(filtered.length / CUSTOMERS_PER_PAGE);
+
+customersPage = Math.min(Math.max(1, customersPage), totalPages);
+
+const startIndex = (customersPage - 1) * CUSTOMERS_PER_PAGE;
+
+const pageCustomers = filtered.slice(
+    startIndex,
+    startIndex + CUSTOMERS_PER_PAGE
+);
+
+const customerHTML = pageCustomers.map(customer => `
+    <div class="customer-item">
+        <div class="customer-details">
+            <strong>${escapeHTML(customer.name)}</strong>
+            <small>Phone Number</small>
+            <span>${escapeHTML(customer.phone || "No phone number")}</span>
         </div>
-    `).join("");
+
+        <button type="button"
+            onclick="deleteCustomer('${customer.id}')">
+            Delete
+        </button>
+    </div>
+`).join("");
+
+container.innerHTML = `
+    ${customerHTML}
+
+    <div class="customers-pagination">
+        <button type="button"
+            onclick="customersPrevious()"
+            ${customersPage === 1 ? "disabled" : ""}>
+            Previous
+        </button>
+
+        <span>Page ${customersPage} of ${totalPages}</span>
+
+        <button type="button"
+            onclick="customersNext()"
+            ${customersPage === totalPages ? "disabled" : ""}>
+            Next
+        </button>
+    </div>
+`;
+}
+function customersNext() {
+    customersPage++;
+    renderCustomers($("customerSearch")?.value || "");
 }
 
+function customersPrevious() {
+    customersPage--;
+    renderCustomers($("customerSearch")?.value || "");
+}
 function filterCustomers() {
+    customersPage = 1;
     renderCustomers($("customerSearch")?.value || "");
 }
 // ==========================================
