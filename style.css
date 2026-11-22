@@ -3425,3 +3425,54 @@ margin-top: 3px;
     font-size: 13px;
     white-space: nowrap;
 }
+/* COMPACT SALES HISTORY CARDS */
+
+#salesHistoryList {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+#salesHistoryList .transaction-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 13px 15px;
+    margin: 0;
+    background: linear-gradient(145deg, #14243b, #0e1a2e);
+    border: 1px solid #3b485b;
+    border-radius: 13px;
+}
+
+#salesHistoryList .transaction-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#salesHistoryList .transaction-info strong:first-child {
+    font-size: 14px;
+}
+
+#salesHistoryList .transaction-info small {
+    font-size: 11px;
+}
+
+#salesHistoryList .transaction-info .sale-amount {
+    font-size: 15px;
+    color: #20c997;
+    font-weight: 800;
+}
+
+#salesHistoryList .transaction-hint {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding-top: 7px;
+    border-top: 1px solid #3b485b;
+}
+
+#salesHistoryList .transaction-hint small {
+    font-size: 10px;
+    flex: 1;
+}
