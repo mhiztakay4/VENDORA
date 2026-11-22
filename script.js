@@ -1636,7 +1636,6 @@ function renderProducts(searchTerm = "") {
     }
 
     container.innerHTML = filtered.map(product => {
-
         const stock = Number(product.stock || 0);
 
         let stockStatus = "";
@@ -1656,22 +1655,32 @@ function renderProducts(searchTerm = "") {
         return `
             <div class="product-item">
 
-                <div>
-                    <strong>${escapeHTML(product.name)}</strong>
+                <div class="product-details">
+                    <strong class="product-name">
+                        ${escapeHTML(product.name)}
+                    </strong>
 
-                    <small>
-                        Cost: ${formatMoney(product.cost_price || 0)}
-                        · Selling: ${formatMoney(product.price)}
-                        · Stock: ${stock}
-                    </small>
+                    <div class="product-prices">
+                        <div>
+                            <small>Cost Price</small>
+                            <strong>${formatMoney(product.cost_price || 0)}</strong>
+                        </div>
 
-                    <span class="stock-badge ${statusClass}">
-                        ${stockStatus}
-                    </span>
+                        <div>
+                            <small>Selling Price</small>
+                            <strong>${formatMoney(product.price)}</strong>
+                        </div>
+                    </div>
+
+                    <div class="product-stock-info">
+                        <span>Stock: ${stock} units</span>
+                        <span class="stock-badge ${statusClass}">
+                            ${stockStatus}
+                        </span>
+                    </div>
                 </div>
 
                 <div class="product-actions">
-
                     <button type="button"
                         onclick="editProduct('${product.id}')">
                         Edit
@@ -1681,13 +1690,12 @@ function renderProducts(searchTerm = "") {
                         onclick="deleteProduct('${product.id}')">
                         Delete
                     </button>
-
                 </div>
 
             </div>
         `;
     }).join("");
-}
+            }
 
 function filterProducts() {
     renderProducts($("productSearch")?.value || "");
