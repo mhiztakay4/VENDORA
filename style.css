@@ -3511,9 +3511,11 @@ margin-top: 3px;
     white-space: nowrap;
 }
 .auth-logo {
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
     display: block;
-    margin: 0 auto 15px;
-    }
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    overflow: hidden;
+}
