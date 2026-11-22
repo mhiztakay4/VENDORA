@@ -1594,7 +1594,8 @@ async function deleteProduct(productId) {
         showAlert("Unable to delete product.");
     }
 }
-
+let productsPage = 1;
+const PRODUCTS_PER_PAGE = 3;
 function renderProducts(searchTerm = "") {
     const container = $("productsList");
     if (!container) return;
@@ -1635,67 +1636,105 @@ function renderProducts(searchTerm = "") {
         return;
     }
 
-    container.innerHTML = filtered.map(product => {
-        const stock = Number(product.stock || 0);
+    const totalPages = Math.ceil(filtered.length / PRODUCTS_PER_PAGE);
 
-        let stockStatus = "";
-        let statusClass = "";
+productsPage = Math.min(Math.max(1, productsPage), totalPages);
 
-        if (stock <= 0) {
-            stockStatus = "Out of Stock";
-            statusClass = "out-of-stock";
-        } else if (stock <= 5) {
-            stockStatus = "Low Stock";
-            statusClass = "low-stock";
-        } else {
-            stockStatus = "In Stock";
-            statusClass = "in-stock";
-        }
+const startIndex = (productsPage - 1) * PRODUCTS_PER_PAGE;
+const pageProducts = filtered.slice(
+    startIndex,
+    startIndex + PRODUCTS_PER_PAGE
+);
 
-        return `
-            <div class="product-item">
+const productHTML = pageProducts.map(product => {
+    const stock = Number(product.stock || 0);
 
-                <div class="product-details">
-                    <strong class="product-name">
-                        ${escapeHTML(product.name)}
-                    </strong>
+    let stockStatus = "";
+    let statusClass = "";
 
-                    <div class="product-prices">
-                        <div>
-                            <small>Cost Price</small>
-                            <strong>${formatMoney(product.cost_price || 0)}</strong>
-                        </div>
+    if (stock <= 0) {
+        stockStatus = "Out of Stock";
+        statusClass = "out-of-stock";
+    } else if (stock <= 5) {
+        stockStatus = "Low Stock";
+        statusClass = "low-stock";
+    } else {
+        stockStatus = "In Stock";
+        statusClass = "in-stock";
+    }
 
-                        <div>
-                            <small>Selling Price</small>
-                            <strong>${formatMoney(product.price)}</strong>
-                        </div>
+    return `
+        <div class="product-item">
+
+            <div class="product-details">
+                <strong class="product-name">
+                    ${escapeHTML(product.name)}
+                </strong>
+
+                <div class="product-prices">
+                    <div>
+                        <small>Cost Price</small>
+                        <strong>${formatMoney(product.cost_price || 0)}</strong>
                     </div>
 
-                    <div class="product-stock-info">
-                        <span>Stock: ${stock} units</span>
-                        <span class="stock-badge ${statusClass}">
-                            ${stockStatus}
-                        </span>
+                    <div>
+                        <small>Selling Price</small>
+                        <strong>${formatMoney(product.price)}</strong>
                     </div>
                 </div>
 
-                <div class="product-actions">
-                    <button type="button"
-                        onclick="editProduct('${product.id}')">
-                        Edit
-                    </button>
-
-                    <button type="button"
-                        onclick="deleteProduct('${product.id}')">
-                        Delete
-                    </button>
+                <div class="product-stock-info">
+                    <span>Stock: ${stock} units</span>
+                    <span class="stock-badge ${statusClass}">
+                        ${stockStatus}
+                    </span>
                 </div>
-
             </div>
-        `;
-    }).join("");
-            }
+
+            <div class="product-actions">
+                <button type="button"
+                    onclick="editProduct('${product.id}')">
+                    Edit
+                </button>
+
+                <button type="button"
+                    onclick="deleteProduct('${product.id}')">
+                    Delete
+                </button>
+            </div>
+
+        </div>
+    `;
+}).join("");
+
+container.innerHTML = `
+    ${productHTML}
+
+    <div class="products-pagination">
+        <button type="button"
+            onclick="productsPrevious()"
+            ${productsPage === 1 ? "disabled" : ""}>
+            Previous
+        </button>
+
+        <span>Page ${productsPage} of ${totalPages}</span>
+
+        <button type="button"
+            onclick="productsNext()"
+            ${productsPage === totalPages ? "disabled" : ""}>
+            Next
+        </button>
+    </div>
+`;
+    function productsNext() {
+    productsPage++;
+    renderProducts($("productSearch")?.value || "");
+}
+
+function productsPrevious() {
+    productsPage--;
+    renderProducts($("productSearch")?.value || "");
+}
 
 function filterProducts() {
     renderProducts($("productSearch")?.value || "");
