@@ -3510,3 +3510,10 @@ margin-top: 3px;
     font-size: 11px;
     white-space: nowrap;
 }
+.auth-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 15px;
+    }
