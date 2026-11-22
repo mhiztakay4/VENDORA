@@ -1923,6 +1923,9 @@ async function deleteExpense(expenseId) {
     }
 }
 
+let expensesPage = 1;
+const EXPENSES_PER_PAGE = 3;
+
 function renderExpenses(searchTerm = "") {
     const container = $("expensesList");
     if (!container) return;
@@ -1951,22 +1954,68 @@ function renderExpenses(searchTerm = "") {
         return;
     }
 
-    container.innerHTML = filtered.map(expense => `
-        <div class="expense-item">
-            <div>
-                <strong>${escapeHTML(expense.description)}</strong>
-                <small>${escapeHTML(expense.category || "General")} · ${formatDate(expense.created_at)}</small>
-            </div>
-            <strong>${formatMoney(expense.amount)}</strong>
+    const totalPages = Math.ceil(filtered.length / EXPENSES_PER_PAGE);
+
+expensesPage = Math.min(Math.max(1, expensesPage), totalPages);
+
+const startIndex = (expensesPage - 1) * EXPENSES_PER_PAGE;
+const pageExpenses = filtered.slice(
+    startIndex,
+    startIndex + EXPENSES_PER_PAGE
+);
+
+const expenseHTML = pageExpenses.map(expense => `
+    <div class="expense-item">
+        <div class="expense-details">
+            <strong>${escapeHTML(expense.description)}</strong>
+            <small>${escapeHTML(expense.category || "General")}</small>
+            <small>${formatDate(expense.created_at)}</small>
+        </div>
+
+        <div class="expense-actions">
+            <strong class="expense-amount">
+                ${formatMoney(expense.amount)}
+            </strong>
+
             <button type="button"
                 onclick="deleteExpense('${expense.id}')">
                 Delete
             </button>
         </div>
-    `).join("");
+    </div>
+`).join("");
+
+container.innerHTML = `
+    ${expenseHTML}
+
+    <div class="expenses-pagination">
+        <button type="button"
+            onclick="expensesPrevious()"
+            ${expensesPage === 1 ? "disabled" : ""}>
+            Previous
+        </button>
+
+        <span>Page ${expensesPage} of ${totalPages}</span>
+
+        <button type="button"
+            onclick="expensesNext()"
+            ${expensesPage === totalPages ? "disabled" : ""}>
+            Next
+        </button>
+    </div>
+`;
+}
+function expensesNext() {
+    expensesPage++;
+    renderExpenses($("expenseSearch")?.value || "");
 }
 
+function expensesPrevious() {
+    expensesPage--;
+    renderExpenses($("expenseSearch")?.value || "");
+}
 function filterExpenses() {
+    expensesPage = 1;
     renderExpenses($("expenseSearch")?.value || "");
 }
 // ==========================================
