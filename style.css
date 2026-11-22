@@ -2913,3 +2913,28 @@ margin-top: 3px;
         font-size: 12px;
     }
 }
+/* Vendora Product Action Buttons */
+.product-item button,
+.product-card button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 6px;
+    transition: 0.2s ease;
+}
+
+.product-item button:first-of-type,
+.product-card button:first-of-type {
+    background: #20C997;
+    color: #06251D;
+}
+
+.product-item button:last-of-type,
+.product-card button:last-of-type {
+    background: #3A2025;
+    color: #FF7B86;
+    border: 1px solid #71343D;
+}
