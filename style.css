@@ -3324,3 +3324,104 @@ margin-top: 3px;
     font-size: 13px;
     white-space: nowrap;
 }
+/* SALES HISTORY — BUSINESS REPORT STYLE */
+
+#salesHistoryList {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+#salesHistoryList .transaction-item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 18px;
+    background: linear-gradient(145deg, #14243b, #0e1a2e);
+    border: 1px solid #3b485b;
+    border-radius: 15px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#salesHistoryList .transaction-item:active {
+    transform: scale(0.985);
+}
+
+#salesHistoryList .transaction-info {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+#salesHistoryList .transaction-info strong:first-child {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+#salesHistoryList .transaction-info small {
+    color: #aab3c2;
+    font-size: 12px;
+}
+
+#salesHistoryList .transaction-info .sale-amount {
+    color: #20c997;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+#salesHistoryList .transaction-hint {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding-top: 12px;
+    border-top: 1px solid #3b485b;
+}
+
+#salesHistoryList .transaction-hint small {
+    flex: 1;
+    color: #aab3c2;
+    font-size: 11px;
+}
+
+#salesHistoryList .transaction-hint span:last-child {
+    color: #f59e0b;
+    font-size: 22px;
+}
+
+/* SALES HISTORY PAGINATION */
+
+#salesHistoryList .sales-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 15px 0 4px;
+    border-top: 1px solid #3b485b;
+}
+
+#salesHistoryList .sales-pagination button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #20c997, #18a878);
+    color: #172033;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+#salesHistoryList .sales-pagination button:disabled {
+    background: #39465a;
+    color: #8995a6;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+#salesHistoryList .sales-pagination span {
+    color: #ffffff;
+    font-size: 13px;
+    white-space: nowrap;
+}
