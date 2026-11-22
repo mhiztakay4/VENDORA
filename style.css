@@ -3112,3 +3112,37 @@ margin-top: 3px;
     background: #FEE2E2;
     color: #991B1B;
 }
+/* PRODUCTS PAGINATION */
+.products-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 18px;
+    padding: 14px;
+    border-top: 1px solid #344256;
+}
+
+.products-pagination button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 9px;
+    background: #20C997;
+    color: #06251D;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.products-pagination button:disabled {
+    background: #39465A;
+    color: #8995A6;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.products-pagination span {
+    color: #FFFFFF;
+    font-size: 13px;
+    white-space: nowrap;
+}
