@@ -847,6 +847,92 @@
 
 </div>
 </section>
+        <!-- SUBSCRIPTION SCREEN -->
+<section id="subscriptionScreen" hidden class="reports-page">
+
+    <div class="reports-header">
+        <button class="back-button" onclick="goHome()">
+            ← Back
+        </button>
+
+        <div>
+            <span class="reports-tag">VENDORA MEMBERSHIP</span>
+            <h1>Choose Your Plan</h1>
+            <p>Unlock more tools to grow your business.</p>
+        </div>
+    </div>
+
+    <div class="report-results-card">
+        <span class="section-label">YOUR CURRENT PLAN</span>
+        <h2 id="currentPlanName">Free Plan</h2>
+        <p id="subscriptionStatus">You are currently using Vendora Free.</p>
+        <p id="subscriptionExpiry">No expiry date</p>
+    </div>
+
+    <div class="report-results-card">
+        <h2>Choose Billing Period</h2>
+
+        <div class="form-group">
+            <select id="billingPeriod">
+                <option value="monthly">Monthly Billing</option>
+                <option value="yearly">Yearly Billing — Save 2 Months</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="subscriptionPlans">
+
+        <div class="report-results-card subscription-plan">
+            <h2>Free</h2>
+            <h3>₦0</h3>
+            <p>Essential tools for getting started.</p>
+            <button type="button" class="secondary-button"
+                    onclick="selectSubscriptionPlan('free')">
+                Current Free Plan
+            </button>
+        </div>
+
+        <div class="report-results-card subscription-plan">
+            <h2>Starter</h2>
+            <h3 class="plan-price" data-monthly="1500" data-yearly="15000">
+                ₦1,500/month
+            </h3>
+            <p>More tools for growing businesses.</p>
+            <button type="button" class="primary-button"
+                    onclick="selectSubscriptionPlan('starter')">
+                Choose Starter
+            </button>
+        </div>
+
+        <div class="report-results-card subscription-plan">
+            <h2>Pro</h2>
+            <h3 class="plan-price" data-monthly="3000" data-yearly="30000">
+                ₦3,000/month
+            </h3>
+            <p>Advanced reports and exports.</p>
+            <button type="button" class="primary-button"
+                    onclick="selectSubscriptionPlan('pro')">
+                Choose Pro
+            </button>
+        </div>
+
+        <div class="report-results-card subscription-plan">
+            <h2>Business</h2>
+            <h3 class="plan-price" data-monthly="5000" data-yearly="50000">
+                ₦5,000/month
+            </h3>
+            <p>More advanced business management.</p>
+            <button type="button" class="primary-button"
+                    onclick="selectSubscriptionPlan('business')">
+                Choose Business
+            </button>
+        </div>
+
+    </div>
+
+    <p id="subscriptionMessage" role="status"></p>
+
+</section>
     </main>
 
 
