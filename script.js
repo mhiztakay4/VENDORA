@@ -1416,60 +1416,110 @@ async function recordSale(event) {
     }
 }
 
+let salesHistoryPage = 1;
+const SALES_PER_PAGE = 3;
+
 function renderSalesHistory(searchTerm = "") {
-    const container = $("salesHistoryList");
-    if (!container) return;
+const container = $("salesHistoryList");
+if (!container) return;
 
-    const search = searchTerm.toLowerCase();
+const search = searchTerm.toLowerCase();
 
-    const filtered = sales.filter(sale =>
-        String(sale.customer_name || "")
-            .toLowerCase()
-            .includes(search)
-    );
+const filtered = sales.filter(sale =>
+    String(sale.customer_name || "")
+        .toLowerCase()
+        .includes(search)
+);
 
-    const totalRevenue = sales.reduce(
-        (sum, sale) => sum + Number(sale.total || 0), 0
-    );
+const totalRevenue = sales.reduce(
+    (sum, sale) => sum + Number(sale.total || 0), 0
+);
 
-    if ($("historyTotalRevenue")) {
-        $("historyTotalRevenue").textContent = formatMoney(totalRevenue);
-    }
+if ($("historyTotalRevenue")) {
+    $("historyTotalRevenue").textContent = formatMoney(totalRevenue);
+}
 
-    if ($("historyTotalTransactions")) {
-        $("historyTotalTransactions").textContent = sales.length;
-    }
+if ($("historyTotalTransactions")) {
+    $("historyTotalTransactions").textContent = sales.length;
+}
 
-    if (filtered.length === 0) {
-        container.innerHTML = "<p>No sales found.</p>";
-        return;
-    }
+if (filtered.length === 0) {
+    container.innerHTML = "<p>No sales found.</p>";
+    return;
+}
 
-    container.innerHTML = filtered.map(sale => `
-        <div class="transaction-item"
-             role="button"
-             tabindex="0"
-             onclick="viewSaleReceipt('${sale.id}')"
-             onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();viewSaleReceipt('${sale.id}')}">
+const totalPages = Math.ceil(filtered.length / SALES_PER_PAGE);
 
-            <div class="transaction-info">
-                <strong>${escapeHTML(sale.customer_name || "Walk-in Customer")}</strong>
-                <small>${formatDateTime(sale.created_at)}</small>
-                <strong class="sale-amount">${formatMoney(sale.total)}</strong>
-            </div>
+salesHistoryPage = Math.min(
+    Math.max(1, salesHistoryPage),
+    totalPages
+);
 
-            <div class="transaction-hint">
-                <span>🧾</span>
-                <small>Tap to view receipt and transaction details</small>
-                <span>›</span>
-            </div>
+const startIndex = (salesHistoryPage - 1) * SALES_PER_PAGE;
+const pageSales = filtered.slice(
+    startIndex,
+    startIndex + SALES_PER_PAGE
+);
+
+const transactionHTML = pageSales.map(sale => `
+    <div class="transaction-item"
+         role="button"
+         tabindex="0"
+         onclick="viewSaleReceipt('${sale.id}')"
+         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();viewSaleReceipt('${sale.id}')}">
+
+        <div class="transaction-info">
+            <strong>${escapeHTML(sale.customer_name || "Walk-in Customer")}</strong>
+            <small>${formatDateTime(sale.created_at)}</small>
+            <strong class="sale-amount">${formatMoney(sale.total)}</strong>
         </div>
-    `).join("");
-            }
+
+        <div class="transaction-hint">
+            <span>🧾</span>
+            <small>Tap to view receipt and transaction details</small>
+            <span>›</span>
+        </div>
+    </div>
+`).join("");
+
+container.innerHTML = `
+    ${transactionHTML}
+
+    <div class="sales-pagination">
+        <button
+            type="button"
+            onclick="salesHistoryPrevious()"
+            ${salesHistoryPage === 1 ? "disabled" : ""}>
+            Previous
+        </button>
+
+        <span>Page ${salesHistoryPage} of ${totalPages}</span>
+
+        <button
+            type="button"
+            onclick="salesHistoryNext()"
+            ${salesHistoryPage === totalPages ? "disabled" : ""}>
+            Next
+        </button>
+    </div>
+`;
+
+}
+
+function salesHistoryNext() {
+salesHistoryPage++;
+renderSalesHistory($("salesSearch")?.value || "");
+}
+
+function salesHistoryPrevious() {
+salesHistoryPage--;
+renderSalesHistory($("salesSearch")?.value || "");
+}
 
 function filterSalesHistory() {
-    renderSalesHistory($("salesSearch")?.value || "");
-}
+salesHistoryPage = 1;
+renderSalesHistory($("salesSearch")?.value || "");
+    }
 // ==========================================
 // PART 4: PRODUCT MANAGEMENT
 // ==========================================
