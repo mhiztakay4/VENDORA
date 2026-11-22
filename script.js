@@ -1594,8 +1594,10 @@ async function deleteProduct(productId) {
         showAlert("Unable to delete product.");
     }
 }
+
 let productsPage = 1;
 const PRODUCTS_PER_PAGE = 3;
+
 function renderProducts(searchTerm = "") {
     const container = $("productsList");
     if (!container) return;
