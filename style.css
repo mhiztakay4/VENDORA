@@ -3476,3 +3476,37 @@ margin-top: 3px;
     font-size: 10px;
     flex: 1;
 }
+/* COMPACT SALES HISTORY PAGINATION */
+
+#salesHistoryList .sales-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px 0 2px;
+    margin-top: 5px;
+    border-top: 1px solid #3b485b;
+}
+
+#salesHistoryList .sales-pagination button {
+    padding: 7px 12px;
+    border: none;
+    border-radius: 8px;
+    background: #20c997;
+    color: #172033;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#salesHistoryList .sales-pagination button:disabled {
+    background: #39465a;
+    color: #8995a6;
+    opacity: 0.7;
+}
+
+#salesHistoryList .sales-pagination span {
+    color: #ffffff;
+    font-size: 11px;
+    white-space: nowrap;
+}
