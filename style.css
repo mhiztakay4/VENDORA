@@ -2970,3 +2970,72 @@ margin-top: 3px;
     font-size: 13px;
     white-space: nowrap;
 }
+/* PRODUCT CARD LAYOUT */
+.product-item,
+.product-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 20px;
+    background: #121E30;
+    border: 1px solid #344256;
+    margin-bottom: 18px;
+}
+
+/* PRODUCT NAME */
+.product-item strong,
+.product-card strong {
+    color: #FFFFFF;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+/* PRODUCT DETAILS */
+.product-item p,
+.product-card p {
+    color: #D1D5DB;
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* STOCK STATUS */
+.product-item .stock-status,
+.product-card .stock-status {
+    display: inline-block;
+    width: fit-content;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #D1FAE5;
+    color: #166534;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* PRODUCT BUTTONS */
+.product-item button,
+.product-card button {
+    padding: 7px 13px;
+    border: none;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+/* EDIT BUTTON */
+.product-item button:first-of-type,
+.product-card button:first-of-type {
+    background: #20C997;
+    color: #06251D;
+}
+
+/* DELETE BUTTON */
+.product-item button:last-of-type,
+.product-card button:last-of-type {
+    background: #3A2025;
+    color: #FF7B86;
+    border: 1px solid #71343D;
+}
