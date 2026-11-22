@@ -1728,6 +1728,7 @@ container.innerHTML = `
         </button>
     </div>
 `;
+}
     function productsNext() {
     productsPage++;
     renderProducts($("productSearch")?.value || "");
