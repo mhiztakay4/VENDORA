@@ -2198,7 +2198,12 @@ function showReceipt(details) {
 
     $("receiptDate").textContent =
         formatDateTime(details.date);
+const receiptCustomer = $("receiptCustomer");
 
+if (receiptCustomer) {
+    receiptCustomer.textContent =
+        details.customer_name || "Walk-in Customer";
+}
     // Receipt items
     const items = details.items || [{
         product_name: details.product,
@@ -2366,7 +2371,7 @@ function printReceipt() {
     
 }
 function downloadReceipt() {
-alert("Download function started");
+    
     console.log("jsPDF status:", window.jspdf);
     console.log("jsPDF available:", typeof window.jspdf?.jsPDF);
     
@@ -2377,7 +2382,7 @@ alert("Download function started");
     console.log("PDF library detected:", typeof window.jspdf.jsPDF);
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-    alert("PDF document created successfully");
+    
     
     const businessName = currentBusiness?.business_name || "VENDORA";
     const receiptNumber = $("receiptNumber")?.textContent || "";
