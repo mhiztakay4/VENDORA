@@ -3146,3 +3146,101 @@ margin-top: 3px;
     font-size: 13px;
     white-space: nowrap;
 }
+/* EXPENSE CARD */
+.expense-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 18px;
+    margin-bottom: 14px;
+    background: #121E30;
+    border: 1px solid #344256;
+    border-radius: 16px;
+}
+
+.expense-details {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.expense-details strong {
+    color: #FFFFFF;
+    font-size: 15px;
+}
+
+.expense-details small {
+    color: #AAB6C5;
+    font-size: 12px;
+}
+
+.expense-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.expense-amount {
+    color: #FF7B86;
+    font-size: 15px;
+}
+
+.expense-actions button {
+    padding: 7px 12px;
+    border: 1px solid #71343D;
+    border-radius: 8px;
+    background: #3A2025;
+    color: #FF7B86;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* EXPENSE PAGINATION */
+.expenses-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 18px;
+    padding: 14px;
+    border-top: 1px solid #344256;
+}
+
+.expenses-pagination button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 9px;
+    background: #20C997;
+    color: #06251D;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.expenses-pagination button:disabled {
+    background: #39465A;
+    color: #8995A6;
+    opacity: 0.7;
+}
+
+.expenses-pagination span {
+    color: #FFFFFF;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+@media (max-width: 400px) {
+    .expense-item {
+        padding: 13px;
+        gap: 8px;
+    }
+
+    .expense-details strong,
+    .expense-amount {
+        font-size: 13px;
+    }
+    }
