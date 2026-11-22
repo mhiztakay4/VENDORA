@@ -19,7 +19,9 @@
 
     <!-- Visible when logged out -->
     <div class="brand" id="guestHeader">
-        <div class="brand-icon">V</div>
+        <div class="brand-icon">
+    <img src="vendora-logo.png" alt="Vendora Logo">
+        </div>
         <div>
             <h2>VENDORA</h2>
         </div>
@@ -979,5 +981,13 @@
     </div>
 
 </section>
+    <script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./service-worker.js")
+        .catch(error => console.error("Service Worker registration failed:", error));
+    });
+  }
+    </script>
 </body>
 </html>
