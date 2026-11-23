@@ -3170,3 +3170,25 @@ function renderDashboardStockAlerts() {
         `;
     }).join("");
 }
+// VENDORA: HIDE / SHOW DASHBOARD REVENUE
+let revenueVisible = true;
+let actualDashboardRevenue = "₦0.00";
+
+function toggleRevenueVisibility() {
+    const revenue = document.getElementById("dashboardRevenue");
+    const button = document.getElementById("toggleRevenue");
+
+    if (!revenue || !button) return;
+
+    revenueVisible = !revenueVisible;
+
+    revenue.textContent = revenueVisible
+        ? actualDashboardRevenue
+        : "₦••••••";
+
+    button.textContent = revenueVisible ? "👁" : "🙈";
+    button.setAttribute(
+        "aria-label",
+        revenueVisible ? "Hide revenue" : "Show revenue"
+    );
+}
