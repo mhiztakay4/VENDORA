@@ -176,100 +176,105 @@
 
     <main class="main-content">
 
-        <!-- DASHBOARD -->
-       <section id="dashboardScreen" hidden>
+        <!-- DASHBOARD -->  
+   <section id="dashboardScreen" hidden>  
 
-            <section class="welcome">
-    <p>Welcome back 👋</p>
-    <h1>Business Overview</h1>
-    <small>Your business at a glance.</small>
-            </section>
+        <section class="welcome">  
+<p>Welcome back 👋</p>  
+<h1>Business Overview</h1>  
+<small>Your business at a glance.</small>  
+        </section>  
 
-            <section class="business-card">
-    <div class="revenue-info">
-        <span>Total Revenue</span>
-        <h2 id="dashboardRevenue">₦0.00</h2>
-        <small>Based on recorded sales</small>
-    </div>
-    <div class="revenue-icon">↗</div>
-            </section>
+        <section class="business-card">  
+<div class="revenue-info">  
+    <span>Total Revenue</span>  
+    <h2 id="dashboardRevenue">₦0.00</h2>  
+    <small>Based on recorded sales</small>  
+</div>  
+<div class="revenue-icon">↗</div>  
+        </section>  
 
-            <section class="stats-grid">
+        <section class="stats-grid">  
 
-    <div class="stat-card">
-        <span>Today's Sales</span>
-        <h3 id="dashboardSales">₦0</h3>
-        <small>Today's transactions</small>
-    </div>
+<div class="stat-card">  
+    <span>Today's Sales</span>  
+    <h3 id="dashboardSales">₦0</h3>  
+    <small>Today's transactions</small>  
+</div>  
 
-    <div class="stat-card">
-        <span>Today's Expenses</span>
-        <h3 id="dashboardExpenses">₦0</h3>
-        <small>Today's recorded expenses</small>
-    </div>
+<div class="stat-card">  
+    <span>Today's Expenses</span>  
+    <h3 id="dashboardExpenses">₦0</h3>  
+    <small>Today's recorded expenses</small>  
+</div>  
 
-    <div class="stat-card">
-        <span>Daily Profit</span>
-        <h3 id="dashboardProfit">₦0</h3>
-        <small>After product costs and expenses</small>
-    </div>
+<div class="stat-card">  
+    <span>Daily Profit</span>  
+    <h3 id="dashboardProfit">₦0</h3>  
+    <small>After product costs and expenses</small>  
+</div>  
 
-    <button
-    type="button"
-    class="primary-button"
-    onclick="openAddProduct()"
->
-    + Add New Product
-    </button>
+<div class="stat-card">  
+    <span>Products</span>  
+    <h3 id="dashboardProducts">0</h3>  
+    <small>Products added</small>  
+</div>  
 
-            </section>
-<!-- LOW STOCK ALERTS -->
-<section class="stock-alert-section" id="dashboardStockAlerts" hidden>
-
-    <div class="stock-alert-heading">
-        <div>
-            <h2>⚠️ Inventory Alerts</h2>
-            <p>Products that need your attention.</p>
-        </div>
-    </div>
-
-    <div id="dashboardStockAlertsList"></div>
-
-</section>
-            <div class="action-grid">
-    <button onclick="openNewSale()">
-        <span>＋</span>
-        New Sale
-    </button>
-
-    <button type="button" onclick="openAddProduct()">
-    <span>＋</span>
-    Add Product
-</button>
-    <button onclick="openExpenses()">
-        <span>💳</span>
-        Expenses
-    </button>
-
-    <button onclick="openAddCustomer()">
-        <span>👤</span>
-        Add Customer
-    </button>
-
-    <button onclick="openReports()">
-        <span>📊</span>
-        Reports
-    </button>
-
-    <button onclick="openDailyClosing()">
-        <span>🔒</span>
-        Daily Closing
-    </button>
-                       
-            </div>
+<div class="stat-card">  
+    <span>Customers</span>  
+    <h3 id="dashboardCustomers">0</h3>  
+    <small>Registered customers</small>  
+</div>  
 
         </section>
-        <!-- END DASHBOARD SCREEN -->
+
+<!-- LOW STOCK ALERTS -->  <section class="stock-alert-section" id="dashboardStockAlerts" hidden>  <div class="stock-alert-heading">  
+    <div>  
+        <h2>⚠️ Inventory Alerts</h2>  
+        <p>Products that need your attention.</p>  
+    </div>  
+</div>  
+
+<div id="dashboardStockAlertsList"></div>
+
+</section>  
+            <div class="action-grid">  
+    <button onclick="openNewSale()">  
+        <span>＋</span>  
+        New Sale  
+    </button>  <button  
+type="button"  
+class="primary-button"  
+onclick="openAddProduct()"
+
+> 
+
++ Add New Product  
+</button>  
+<button onclick="openExpenses()">  
+    <span>💳</span>  
+    Expenses  
+</button>  
+
+<button onclick="openAddCustomer()">  
+    <span>👤</span>  
+    Add Customer  
+</button>  
+
+<button onclick="openReports()">  
+    <span>📊</span>  
+    Reports  
+</button>  
+
+<button onclick="openDailyClosing()">  
+    <span>🔒</span>  
+    Daily Closing  
+</button>  
+                     
+        </div>  
+
+    </section>  
+    <!-- END DASHBOARD SCREEN -->
 
 <!-- REPORTS SCREEN -->
 <section id="reportsScreen" hidden class="reports-page">
