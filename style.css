@@ -3519,3 +3519,23 @@ margin-top: 3px;
     border-radius: 50%;
     overflow: hidden;
 }
+.revenue-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.revenue-toggle {
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 6px;
+    line-height: 1;
+}
+
+.revenue-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
