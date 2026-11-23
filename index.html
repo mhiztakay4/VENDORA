@@ -185,14 +185,26 @@
 <small>Your business at a glance.</small>  
         </section>  
 
-        <section class="business-card">  
-<div class="revenue-info">  
-    <span>Total Revenue</span>  
-    <h2 id="dashboardRevenue">₦0.00</h2>  
-    <small>Based on recorded sales</small>  
-</div>  
-<div class="revenue-icon">↗</div>  
-        </section>  
+        <section class="business-card">
+    <div class="revenue-info">
+        <div class="revenue-title">
+            <span>Total Revenue</span>
+
+            <button type="button"
+                    id="toggleRevenue"
+                    class="revenue-toggle"
+                    onclick="toggleRevenueVisibility()"
+                    aria-label="Hide revenue">
+                👁
+            </button>
+        </div>
+
+        <h2 id="dashboardRevenue">₦0.00</h2>
+        <small>Based on recorded sales</small>
+    </div>
+
+    <div class="revenue-icon">↗</div>
+        </section>
 
         <section class="stats-grid">  
 
