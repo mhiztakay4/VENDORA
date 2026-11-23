@@ -3170,21 +3170,3 @@ function renderDashboardStockAlerts() {
         `;
     }).join("");
 }
-// VENDORA SUBSCRIPTION BILLING PERIOD
-document.addEventListener("DOMContentLoaded", () => {
-    const billingPeriod = document.getElementById("billingPeriod");
-
-    if (!billingPeriod) return;
-
-    billingPeriod.addEventListener("change", () => {
-        const period = billingPeriod.value;
-
-        document.querySelectorAll(".plan-price").forEach(price => {
-            const amount = Number(price.dataset[period]);
-
-            price.textContent =
-                "₦" + amount.toLocaleString("en-NG") +
-                (period === "monthly" ? "/month" : "/year");
-        });
-    });
-});
