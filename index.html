@@ -220,12 +220,6 @@
         <small>Products added</small>
     </div>
 
-    <div class="stat-card">
-        <span>Customers</span>
-        <h3 id="dashboardCustomers">0</h3>
-        <small>Registered customers</small>
-    </div>
-
             </section>
 <!-- LOW STOCK ALERTS -->
 <section class="stock-alert-section" id="dashboardStockAlerts" hidden>
@@ -246,13 +240,10 @@
         New Sale
     </button>
 
-    <button
-    type="button"
-    class="primary-button"
-    onclick="openAddProduct()"
->
-    + Add New Product
-    </button>
+    <button type="button" onclick="openAddProduct()">
+    <span>＋</span>
+    Add Product
+</button>
     <button onclick="openExpenses()">
         <span>💳</span>
         Expenses
