@@ -2937,10 +2937,11 @@ margin-top: 3px;
     color: #FF7B86;
     border: 1px solid #71343D;
         }
-.sales-pagination {
+..sales-pagination {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 12px;
     margin-top: 18px;
     padding: 14px;
@@ -2948,6 +2949,7 @@ margin-top: 3px;
 }
 
 .sales-pagination button {
+    min-width: 90px;
     padding: 10px 16px;
     border: none;
     border-radius: 9px;
