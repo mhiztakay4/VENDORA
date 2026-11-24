@@ -1373,17 +1373,74 @@ async function recordSale(event) {
             throw itemError;
         }
 
-        for (const item of items) {
-            const { error: stockError } = await db
-                .from("products")
-                .update({
-                    stock: Number(item.product.stock || 0) - item.quantity
-                })
-                .eq("id", item.product.id)
-                .eq("business_id", currentBusiness.id);
+async function recordSale(event) {
+    if (event) event.preventDefault();
 
-            if (stockError) throw stockError;
+    if (!currentBusiness || !cloudReady) {
+        showAlert("Please log in and wait for your business data to load.");
+        return;
+    }
+
+    const customerName =
+        $("saleCustomer")?.value.trim() || "Walk-in Customer";
+
+    const rows = [...document.querySelectorAll(".sale-item-row")];
+
+    if (rows.length === 0) {
+        showAlert("Please add at least one product.");
+        return;
+    }
+
+    const groupedItems = new Map();
+
+    for (const row of rows) {
+        const productId = row.querySelector(".sale-item-product")?.value;
+        const quantity = Number(
+            row.querySelector(".sale-item-quantity")?.value || 0
+        );
+
+        const product = products.find(
+            item => String(item.id) === String(productId)
+        );
+
+        if (!product) {
+            showAlert("Please select a product in every row.");
+            return;
         }
+
+        if (!Number.isInteger(quantity) || quantity < 1) {
+            showAlert("Enter a valid quantity for every product.");
+            return;
+        }
+
+        const existing = groupedItems.get(productId);
+
+        if (existing) {
+            existing.quantity += quantity;
+        } else {
+            groupedItems.set(productId, {
+                product_id: productId,
+                quantity
+            });
+        }
+    }
+
+    const items = [...groupedItems.values()];
+
+    const requestId = crypto.randomUUID();
+
+    try {
+        const { data: sale, error } = await db.rpc(
+            "create_business_sale",
+            {
+                p_business_id: currentBusiness.id,
+                p_customer_name: customerName,
+                p_items: items,
+                p_request_id: requestId
+            }
+        );
+
+        if (error) throw error;
 
         await loadAllCloudData();
 
@@ -1391,34 +1448,26 @@ async function recordSale(event) {
         populateSaleProducts();
 
         showReceipt({
-    id: sale.id,
-    customer: customerName,
-    items: items.map(item => {
-        const unitPrice = Number(item.product.price || 0);
-
-        return {
-            product_name: item.product.name,
-            quantity: item.quantity,
-            unit_price: unitPrice,
-            line_total: unitPrice * item.quantity
-        };
-    }),
-    total,
-    date: sale.created_at
-});
+            id: sale.sale_id,
+            customer: sale.customer_name,
+            items: sale.items,
+            total: sale.total,
+            date: sale.created_at
+        });
 
         goHome();
 
     } catch (error) {
         console.error("Sale error:", error);
+
         showAlert(
             "Unable to record sale: " +
             (error.message || "Please try again.")
         );
+
         await loadAllCloudData();
     }
 }
-
 let salesHistoryPage = 1;
 const SALES_PER_PAGE = 3;
 
