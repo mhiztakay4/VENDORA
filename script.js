@@ -294,25 +294,19 @@ async function confirmDailyClosing() {
 // ==========================================
 
 async function loadBusinessProfile() {
-    if (!currentUser) return null;
+    if (!currentUser) return [];
 
-    try {
-        const { data, error } = await db
-            .from("businesses")
-            .select("*")
-            .eq("owner_id", currentUser.id)
-            .maybeSingle();
+    const { data, error } = await db
+        .from("businesses")
+        .select("*")
+        .order("created_at", { ascending: true });
 
-        if (error) throw error;
-
-        currentBusiness = data;
-
-        return data;
-
-    } catch (error) {
-        console.error("Business profile error:", error);
-        return null;
+    if (error) {
+        console.error("Business loading error:", error);
+        throw error;
     }
+
+    return data || [];
 }
 
 async function saveBusinessProfile(event) {
@@ -2250,48 +2244,80 @@ async function loginUser(event) {
 }
 
 async function initializeAuthenticatedUser(user) {
+async function initializeAuthenticatedUser(user) {
     currentUser = user;
 
-    let business = await loadBusinessProfile();
+    try {
+        const businesses = await loadBusinessProfile();
 
-    if (!business) {
-        const metadata = user.user_metadata || {};
+        if (businesses.length > 0) {
+            // User owns or belongs to at least one business.
+            currentBusiness = businesses[0];
 
-        const { data, error } = await db
-            .from("businesses")
-            .insert({
-                owner_id: user.id,
-                owner_name: metadata.owner_name || "Business Owner",
-                business_name: metadata.business_name || "My Business",
-                phone: metadata.phone || "Not provided",
-                address: metadata.address || "Not provided",
-                business_category: metadata.business_category || "General"
-            })
-            .select()
-            .single();
+        } else {
+            // Check whether the user has any membership record.
+            const { data: memberships, error: membershipError } =
+                await db
+                    .from("business_members")
+                    .select("id, status")
+                    .eq("user_id", user.id);
 
-        if (error) {
-            console.error("Business creation error:", error);
+            if (membershipError) throw membershipError;
+
+            if (memberships && memberships.length > 0) {
+                showUnauthenticatedApp();
+
+                showAuthMessage(
+                    "You don't currently have access to an active business. Contact the business owner."
+                );
+
+                return;
+            }
+
+            // Only create a business for a genuinely new owner.
+            const metadata = user.user_metadata || {};
+
+            const { data, error } = await db
+                .from("businesses")
+                .insert({
+                    owner_id: user.id,
+                    owner_name: metadata.owner_name || "Business Owner",
+                    business_name: metadata.business_name || "My Business",
+                    phone: metadata.phone || "Not provided",
+                    address: metadata.address || "Not provided",
+                    business_category:
+                        metadata.business_category || "General"
+                })
+                .select()
+                .single();
+
+            if (error) throw error;
+
+            currentBusiness = data;
+        }
+
+        updateBusinessDisplay();
+
+        await loadAllCloudData();
+
+        if (!cloudReady) {
             showUnauthenticatedApp();
-            showAuthMessage(
-                "Unable to create your business profile: " + error.message
-            );
             return;
         }
 
-        currentBusiness = data;
-    } else {
-        currentBusiness = business;
+        ensureLogoutButton();
+        showAuthenticatedApp();
+
+    } catch (error) {
+        console.error("Account initialization error:", error);
+
+        showUnauthenticatedApp();
+
+        showAuthMessage(
+            "Unable to load your business account: " + error.message
+        );
     }
-
-    updateBusinessDisplay();
-
-    await loadAllCloudData();
-
-    ensureLogoutButton();
-
-    showAuthenticatedApp();
-}
+                        }
 async function logoutUser() {
     const confirmed = confirm("Are you sure you want to log out?");
     if (!confirmed) return;
