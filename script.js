@@ -2348,6 +2348,8 @@ async function logoutUser() {
 // ==========================================
 
 function initializeApp() {
+    // Hide dashboard and navigation until login
+    showUnauthenticatedApp();
     // Authentication form links
     $("showRegister")?.addEventListener("click", event => {
         event.preventDefault();
