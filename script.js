@@ -2244,7 +2244,6 @@ async function loginUser(event) {
 }
 
 async function initializeAuthenticatedUser(user) {
-async function initializeAuthenticatedUser(user) {
     currentUser = user;
 
     try {
