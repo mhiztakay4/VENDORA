@@ -1079,9 +1079,12 @@ function refreshDashboard() {
     const dailyProfit = totalRevenue - costOfGoodsSold - totalExpenses;
 
     if ($("dashboardRevenue")) {
-        $("dashboardRevenue").textContent = formatMoney(totalRevenue);
-    }
+    actualDashboardRevenue = formatMoney(totalRevenue);
 
+    $("dashboardRevenue").textContent = revenueVisible
+        ? actualDashboardRevenue
+        : "₦••••••";
+}
     if ($("dashboardSales")) {
         $("dashboardSales").textContent = todaySales.length;
     }
