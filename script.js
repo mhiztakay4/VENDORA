@@ -2347,6 +2347,10 @@ function initializeApp() {
     $("saleForm")?.addEventListener("submit", recordSale);
     $("saleProduct")?.addEventListener("change", updateSaleTotal);
     $("saleQuantity")?.addEventListener("input", updateSaleTotal);
+    // Business switcher
+$("businessSwitcher")?.addEventListener("change", event => {
+    switchBusiness(event.target.value);
+});
 
     // Business profile
     $("businessProfileForm")?.addEventListener("submit", saveBusinessProfile);
@@ -2377,6 +2381,13 @@ function initializeApp() {
         if (event === "SIGNED_OUT") {
             currentUser = null;
             currentBusiness = null;
+            availableBusinesses = [];
+
+const selector = $("businessSwitcher");
+if (selector) {
+    selector.innerHTML = "";
+    selector.style.display = "none";
+}
             products = [];
             customers = [];
             sales = [];
