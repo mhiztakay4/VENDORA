@@ -22,6 +22,7 @@ const db = window.supabase.createClient(
 
 let currentUser = null;
 let currentBusiness = null;
+let availableBusinesses = [];
 
 let products = [];
 let customers = [];
@@ -391,7 +392,75 @@ async function saveBusinessProfile(event) {
         showAlert("Unable to update business profile: " + error.message);
     }
 }
+function renderBusinessSwitcher() {
+    const selector = $("businessSwitcher");
+    if (!selector) return;
 
+    selector.innerHTML = "";
+
+    availableBusinesses.forEach(business => {
+        const option = document.createElement("option");
+        option.value = business.id;
+        option.textContent = business.business_name || "My Business";
+        selector.appendChild(option);
+    });
+
+    selector.value = currentBusiness?.id || "";
+
+    selector.style.display =
+        availableBusinesses.length > 1 ? "block" : "none";
+}
+
+async function switchBusiness(businessId) {
+    const selectedBusiness = availableBusinesses.find(
+        business => String(business.id) === String(businessId)
+    );
+
+    if (!selectedBusiness || selectedBusiness.id === currentBusiness?.id) {
+        return;
+    }
+
+    const previousBusiness = currentBusiness;
+
+    try {
+        cloudReady = false;
+
+        products = [];
+        customers = [];
+        sales = [];
+        expenses = [];
+        dailyClosings = [];
+
+        currentBusiness = selectedBusiness;
+
+        updateBusinessDisplay();
+
+        await loadAllCloudData();
+
+        if (!cloudReady) {
+            throw new Error("Unable to load the selected business data.");
+        }
+
+        localStorage.setItem(
+            `vendora_business_${currentUser.id}`,
+            selectedBusiness.id
+        );
+
+        renderBusinessSwitcher();
+        goHome();
+
+    } catch (error) {
+        console.error("Business switching error:", error);
+
+        currentBusiness = previousBusiness;
+        updateBusinessDisplay();
+        renderBusinessSwitcher();
+
+        await loadAllCloudData();
+
+        showAlert("Unable to switch business. Please try again.");
+    }
+}
 function updateBusinessDisplay() {
     if (!currentBusiness) return;
 
@@ -2137,6 +2206,24 @@ async function initializeAuthenticatedUser(user) {
 
     try {
         const businesses = await loadBusinessProfile();
+        availableBusinesses = businesses || [];
+
+let savedBusinessId = null;
+
+try {
+    savedBusinessId = localStorage.getItem(
+        `vendora_business_${user.id}`
+    );
+} catch (error) {
+    console.warn("Could not access saved business:", error);
+}
+
+if (availableBusinesses.length > 0) {
+    currentBusiness =
+        availableBusinesses.find(
+            business => String(business.id) === String(savedBusinessId)
+        ) || availableBusinesses[0];
+}
 
         if (businesses.length > 0) {
             // User owns or belongs to at least one business.
@@ -2182,9 +2269,11 @@ async function initializeAuthenticatedUser(user) {
             if (error) throw error;
 
             currentBusiness = data;
+availableBusinesses = [data];
         }
 
         updateBusinessDisplay();
+        renderBusinessSwitcher();
 
         await loadAllCloudData();
 
