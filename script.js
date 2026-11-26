@@ -662,12 +662,20 @@ function openAccount() {
     showScreen("accountScreen");
     updateBusinessDisplay();
 }
+// ==========================================
+// EMPLOYEE MANAGEMENT
+// ==========================================
+
 function openEmployeeManagement() {
     if (!currentBusiness || !currentUser) {
         showAlert("Please log in first.");
         return;
     }
-    // ==========================================
+
+    showScreen("employeesScreen");
+}
+
+// ==========================================
 // EMPLOYEE INVITATION
 // ==========================================
 
@@ -694,7 +702,6 @@ async function generateEmployeeInvitation(event) {
     try {
         button.disabled = true;
         button.textContent = "Generating...";
-
         message.textContent = "Creating invitation...";
 
         const { data, error } = await db.rpc(
@@ -732,7 +739,6 @@ async function generateEmployeeInvitation(event) {
         linkBox.value = invitationLink;
         linkBox.style.width = "100%";
         linkBox.style.minHeight = "90px";
-        linkBox.style.marginTop = "10px";
 
         const copyButton = document.createElement("button");
         copyButton.type = "button";
@@ -750,12 +756,10 @@ async function generateEmployeeInvitation(event) {
         });
 
         message.append(success, linkLabel, linkBox, copyButton);
-
         form.reset();
 
     } catch (error) {
         console.error("Invitation generation error:", error);
-
         message.textContent =
             error.message || "Unable to generate invitation.";
 
@@ -763,9 +767,7 @@ async function generateEmployeeInvitation(event) {
         button.disabled = false;
         button.textContent = "Generate Invitation";
     }
-                }
-    showScreen("employeesScreen");
-}
+    }
 function openPrinterSettings() {
     showScreen("printerSettings");
     
