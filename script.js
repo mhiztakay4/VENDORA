@@ -2174,6 +2174,164 @@ function filterExpenses() {
     expensesPage = 1;
     renderExpenses($("expenseSearch")?.value || "");
 }
+
+// ==========================================
+// EMPLOYEE INVITATION AUTHENTICATION
+// ==========================================
+
+function getInvitationToken() {
+    return new URLSearchParams(window.location.search).get("invite");
+}
+
+function showEmployeeInvitation() {
+    const token = getInvitationToken();
+    if (!token) return false;
+
+    const panel = $("employeeInvitePanel");
+
+    if (panel) panel.hidden = false;
+
+    if ($("loginForm")) $("loginForm").hidden = true;
+    if ($("registerForm")) $("registerForm").hidden = true;
+
+    showUnauthenticatedApp();
+
+    return true;
+}
+
+function showEmployeeInviteMessage(message) {
+    const box = $("employeeInviteMessage");
+    if (box) box.textContent = message;
+}
+
+async function registerInvitedEmployee() {
+    const token = getInvitationToken();
+    const fullName = $("employeeFullName")?.value.trim();
+    const email = $("employeeInviteEmail")?.value.trim().toLowerCase();
+    const password = $("employeeInvitePassword")?.value;
+
+    if (!token || !fullName || !email || !password) {
+        showEmployeeInviteMessage("Please complete all fields.");
+        return;
+    }
+
+    if (password.length < 8) {
+        showEmployeeInviteMessage("Password must contain at least 8 characters.");
+        return;
+    }
+
+    try {
+        $("employeeRegisterBtn").disabled = true;
+        showEmployeeInviteMessage("Creating your employee account...");
+
+        const redirectUrl =
+            window.location.origin +
+            window.location.pathname +
+            "?invite=" +
+            encodeURIComponent(token);
+
+        const { data, error } = await db.auth.signUp({
+            email,
+            password,
+            options: {
+                emailRedirectTo: redirectUrl,
+                data: {
+                    full_name: fullName
+                }
+            }
+        });
+
+        if (error) throw error;
+
+        if (data.session && data.user) {
+            await completeEmployeeInvitation(token);
+        } else {
+            showEmployeeInviteMessage(
+                "Account created. Please confirm your email using the link sent to your inbox. Then return through the invitation link to join the business."
+            );
+        }
+
+    } catch (error) {
+        console.error("Employee registration error:", error);
+        showEmployeeInviteMessage(error.message || "Registration failed.");
+    } finally {
+        $("employeeRegisterBtn").disabled = false;
+    }
+}
+
+async function loginInvitedEmployee() {
+    const email = $("employeeInviteEmail")?.value.trim().toLowerCase();
+    const password = $("employeeInvitePassword")?.value;
+
+    if (!email || !password) {
+        showEmployeeInviteMessage("Enter your invited email and password.");
+        return;
+    }
+
+    try {
+        $("employeeLoginBtn").disabled = true;
+        showEmployeeInviteMessage("Signing in...");
+
+        const { data, error } = await db.auth.signInWithPassword({
+            email,
+            password
+        });
+
+        if (error) throw error;
+
+        await completeEmployeeInvitation(getInvitationToken());
+
+    } catch (error) {
+        console.error("Employee login error:", error);
+        showEmployeeInviteMessage(error.message || "Unable to sign in.");
+    } finally {
+        $("employeeLoginBtn").disabled = false;
+    }
+}
+
+async function completeEmployeeInvitation(token) {
+    if (!token) {
+        showEmployeeInviteMessage("Invitation token is missing.");
+        return;
+    }
+
+    try {
+        showEmployeeInviteMessage("Verifying your invitation...");
+
+        const { data, error } = await db.rpc(
+            "accept_business_invitation",
+            { p_token: token }
+        );
+
+        if (error) throw error;
+
+        if (!data || !data.success) {
+            throw new Error("Invitation could not be accepted.");
+        }
+
+        showEmployeeInviteMessage(
+            "Invitation accepted! Opening your business..."
+        );
+
+        window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+        );
+
+        await initializeAuthenticatedUser(
+            (await db.auth.getUser()).data.user,
+            data.business_id
+        );
+
+    } catch (error) {
+        console.error("Invitation acceptance error:", error);
+        showEmployeeInviteMessage(
+            error.message || "Unable to accept this invitation."
+        );
+    }
+}
+
 // ==========================================
 // PART 6: AUTHENTICATION
 // ==========================================
