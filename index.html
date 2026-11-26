@@ -70,6 +70,46 @@
     <h1>VENDORA</h1>
     <p>Your Business. Your Control. Your Growth.</p>
         </div>
+        <!-- EMPLOYEE INVITATION AUTHENTICATION -->
+<div id="employeeInvitePanel" hidden>
+
+    <h2>Join a Business</h2>
+    <p id="employeeInviteDescription">
+        You've been invited to join a business on Vendora.
+    </p>
+
+    <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="employeeFullName"
+               placeholder="Enter your full name">
+    </div>
+
+    <div class="form-group">
+        <label>Invited Email Address</label>
+        <input type="email" id="employeeInviteEmail"
+               placeholder="Your invited email address">
+    </div>
+
+    <div class="form-group" id="employeePasswordGroup">
+        <label>Create Password</label>
+        <input type="password" id="employeeInvitePassword"
+               minlength="8"
+               placeholder="At least 8 characters">
+    </div>
+
+    <button type="button" id="employeeRegisterBtn"
+            class="primary-button">
+        Create Employee Account
+    </button>
+
+    <button type="button" id="employeeLoginBtn"
+            class="primary-button">
+        I Already Have an Account
+    </button>
+
+    <p id="employeeInviteMessage" role="status"></p>
+
+</div>
 
         <!-- LOGIN FORM -->
         <form id="loginForm">
