@@ -3539,3 +3539,81 @@ margin-top: 3px;
 .revenue-toggle:hover {
     background: rgba(255, 255, 255, 0.1);
 }
+/* EMPLOYEE MANAGEMENT */
+#employeesScreen {
+    padding: 22px 18px;
+    color: #f5f5f5;
+}
+
+#employeesScreen h2 {
+    font-size: 26px;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+#employeesScreen h3 {
+    font-size: 19px;
+    margin: 22px 0 12px;
+    color: #20c997;
+}
+
+#employeesScreen p {
+    color: #aaa;
+    margin-bottom: 15px;
+}
+
+#employeeInviteForm {
+    background: #202020;
+    border: 1px solid #333;
+    border-radius: 14px;
+    padding: 16px;
+    margin-top: 15px;
+}
+
+#employeeInviteForm label {
+    display: block;
+    margin: 12px 0 7px;
+    color: #ddd;
+    font-weight: 600;
+}
+
+#employeeInviteForm input,
+#employeeInviteForm select {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 12px;
+    border: 1px solid #444;
+    border-radius: 9px;
+    background: #151515;
+    color: #fff;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+#employeeInviteForm button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 9px;
+    background: #20c997;
+    color: #06251d;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#employeesList,
+#pendingInvitationsList {
+    background: #202020;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 10px;
+    color: #ccc;
+}
+
+#employeeManagementMessage {
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 8px;
+}
