@@ -2466,36 +2466,41 @@ async function loginUser(event) {
     }
 }
 
-async function initializeAuthenticatedUser(user) {
+async function initializeAuthenticatedUser(user, preferredBusinessId = null) {
     currentUser = user;
 
     try {
         const businesses = await loadBusinessProfile();
         availableBusinesses = businesses || [];
 
-let savedBusinessId = null;
+        // Check for a previously selected business
+        let savedBusinessId = null;
 
-try {
-    savedBusinessId = localStorage.getItem(
-        `vendora_business_${user.id}`
-    );
-} catch (error) {
-    console.warn("Could not access saved business:", error);
-}
+        try {
+            savedBusinessId = localStorage.getItem(
+                `vendora_business_${user.id}`
+            );
+        } catch (error) {
+            console.warn("Could not access saved business:", error);
+        }
 
-if (availableBusinesses.length > 0) {
-    currentBusiness =
-        availableBusinesses.find(
-            business => String(business.id) === String(savedBusinessId)
-        ) || availableBusinesses[0];
-}
+        if (availableBusinesses.length > 0) {
 
-        if (businesses.length > 0) {
-            // User owns or belongs to at least one business.
-            currentBusiness = businesses[0];
+            // Prefer the business from the invitation link
+            currentBusiness =
+                availableBusinesses.find(
+                    business =>
+                        String(business.id) === String(preferredBusinessId)
+                ) ||
+                availableBusinesses.find(
+                    business =>
+                        String(business.id) === String(savedBusinessId)
+                ) ||
+                availableBusinesses[0];
 
         } else {
-            // Check whether the user has any membership record.
+
+            // Check whether this account already has a membership
             const { data: memberships, error: membershipError } =
                 await db
                     .from("business_members")
@@ -2508,13 +2513,13 @@ if (availableBusinesses.length > 0) {
                 showUnauthenticatedApp();
 
                 showAuthMessage(
-                    "You don't currently have access to an active business. Contact the business owner."
+                    "Your account has no active business access. Please contact the business owner."
                 );
 
                 return;
             }
 
-            // Only create a business for a genuinely new owner.
+            // Create a business only for a new owner account
             const metadata = user.user_metadata || {};
 
             const { data, error } = await db
@@ -2534,8 +2539,13 @@ if (availableBusinesses.length > 0) {
             if (error) throw error;
 
             currentBusiness = data;
-availableBusinesses = [data];
+            availableBusinesses = [data];
         }
+
+        localStorage.setItem(
+            `vendora_business_${user.id}`,
+            currentBusiness.id
+        );
 
         updateBusinessDisplay();
         renderBusinessSwitcher();
@@ -2559,7 +2569,8 @@ availableBusinesses = [data];
             "Unable to load your business account: " + error.message
         );
     }
-                        }
+}
+
 async function logoutUser() {
     const confirmed = confirm("Are you sure you want to log out?");
     if (!confirmed) return;
@@ -2607,6 +2618,21 @@ function initializeApp() {
     // Authentication forms
     $("loginForm")?.addEventListener("submit", loginUser);
     $("registerForm")?.addEventListener("submit", registerUser);
+    // Employee invitation buttons
+$("employeeRegisterBtn")?.addEventListener(
+    "click",
+    registerInvitedEmployee
+);
+
+$("employeeLoginBtn")?.addEventListener(
+    "click",
+    loginInvitedEmployee
+);
+
+// Detect invitation links
+if (getInvitationToken()) {
+    showEmployeeInvitation();
+}
 
     // Sale form
     $("saleForm")?.addEventListener("submit", recordSale);
@@ -2639,9 +2665,21 @@ $("employeeInviteForm")?.addEventListener(
         }
 
         if (data.session?.user) {
-            await initializeAuthenticatedUser(data.session.user);
-        } else {
-            showUnauthenticatedApp();
+
+    const invitationToken = getInvitationToken();
+
+    if (invitationToken) {
+        await completeEmployeeInvitation(invitationToken);
+    } else {
+        await initializeAuthenticatedUser(data.session.user);
+    }
+
+} else {
+    if (getInvitationToken()) {
+        showEmployeeInvitation();
+    } else {
+        showUnauthenticatedApp();
+    }
         }
     });
 
