@@ -2459,7 +2459,11 @@ $("businessSwitcher")?.addEventListener("change", event => {
 
     // Business profile
     $("businessProfileForm")?.addEventListener("submit", saveBusinessProfile);
-
+// Employee invitation
+$("employeeInviteForm")?.addEventListener(
+    "submit",
+    generateEmployeeInvitation
+);
     // Search fields
     $("salesSearch")?.addEventListener("input", filterSalesHistory);
     $("productSearch")?.addEventListener("input", filterProducts);
