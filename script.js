@@ -573,7 +573,7 @@ function hideAllScreens() {
         "customersScreen",
         "expensesScreen",
         "accountScreen",
-        "printerSettings"
+        "printerSettings",
         "employeesScreen"
     ];
 
