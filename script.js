@@ -667,7 +667,103 @@ function openEmployeeManagement() {
         showAlert("Please log in first.");
         return;
     }
+    // ==========================================
+// EMPLOYEE INVITATION
+// ==========================================
 
+async function generateEmployeeInvitation(event) {
+    event.preventDefault();
+
+    const form = $("employeeInviteForm");
+    const message = $("employeeManagementMessage");
+    const button = form?.querySelector('button[type="submit"]');
+
+    if (!currentUser || !currentBusiness) {
+        message.textContent = "Please log in and select a business.";
+        return;
+    }
+
+    const email = $("employeeEmail").value.trim().toLowerCase();
+    const role = $("employeeRole").value;
+
+    if (!email || !role) {
+        message.textContent = "Please enter an email and select a role.";
+        return;
+    }
+
+    try {
+        button.disabled = true;
+        button.textContent = "Generating...";
+
+        message.textContent = "Creating invitation...";
+
+        const { data, error } = await db.rpc(
+            "create_business_invitation",
+            {
+                p_business_id: currentBusiness.id,
+                p_invited_email: email,
+                p_role: role
+            }
+        );
+
+        if (error) throw error;
+
+        if (!data || !data.success || !data.token) {
+            throw new Error("Invitation could not be generated.");
+        }
+
+        const invitationLink =
+            window.location.origin +
+            window.location.pathname +
+            "?invite=" +
+            encodeURIComponent(data.token);
+
+        message.innerHTML = "";
+
+        const success = document.createElement("p");
+        success.textContent =
+            "Invitation generated successfully! Expires in 7 days.";
+
+        const linkLabel = document.createElement("p");
+        linkLabel.textContent = "Share this invitation link:";
+
+        const linkBox = document.createElement("textarea");
+        linkBox.readOnly = true;
+        linkBox.value = invitationLink;
+        linkBox.style.width = "100%";
+        linkBox.style.minHeight = "90px";
+        linkBox.style.marginTop = "10px";
+
+        const copyButton = document.createElement("button");
+        copyButton.type = "button";
+        copyButton.textContent = "Copy Invitation Link";
+
+        copyButton.addEventListener("click", async () => {
+            try {
+                await navigator.clipboard.writeText(invitationLink);
+                copyButton.textContent = "Copied!";
+            } catch (error) {
+                linkBox.select();
+                document.execCommand("copy");
+                copyButton.textContent = "Copied!";
+            }
+        });
+
+        message.append(success, linkLabel, linkBox, copyButton);
+
+        form.reset();
+
+    } catch (error) {
+        console.error("Invitation generation error:", error);
+
+        message.textContent =
+            error.message || "Unable to generate invitation.";
+
+    } finally {
+        button.disabled = false;
+        button.textContent = "Generate Invitation";
+    }
+                }
     showScreen("employeesScreen");
 }
 function openPrinterSettings() {
