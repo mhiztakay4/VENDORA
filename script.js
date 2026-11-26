@@ -574,6 +574,7 @@ function hideAllScreens() {
         "expensesScreen",
         "accountScreen",
         "printerSettings"
+        "employeesScreen"
     ];
 
     screens.forEach(id => {
@@ -660,6 +661,14 @@ function openExpenses() {
 function openAccount() {
     showScreen("accountScreen");
     updateBusinessDisplay();
+}
+function openEmployeeManagement() {
+    if (!currentBusiness || !currentUser) {
+        showAlert("Please log in first.");
+        return;
+    }
+
+    showScreen("employeesScreen");
 }
 function openPrinterSettings() {
     showScreen("printerSettings");
