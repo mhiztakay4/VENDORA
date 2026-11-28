@@ -24,6 +24,8 @@ let currentUser = null;
 let currentBusiness = null;
 let availableBusinesses = [];
 
+let currentRole = "owner";
+
 let products = [];
 let customers = [];
 let sales = [];
@@ -32,7 +34,40 @@ let dailyClosings = [];
 let lastGeneratedReport = null;
 
 let cloudReady = false;
+async function loadCurrentBusinessRole() {
+    if (!currentUser || !currentBusiness) {
+        currentRole = null;
+        return false;
+    }
 
+    // The business owner has full access.
+    if (currentBusiness.owner_id === currentUser.id) {
+        currentRole = "owner";
+        return true;
+    }
+
+    // Retrieve the employee's assigned role.
+    const { data, error } = await db
+        .from("business_members")
+        .select("role, status")
+        .eq("business_id", currentBusiness.id)
+        .eq("user_id", currentUser.id)
+        .eq("status", "active")
+        .maybeSingle();
+
+    if (error || !data) {
+        console.error("Role loading failed:", error);
+        currentRole = null;
+        showAlert("You do not have active access to this business.");
+        return false;
+    }
+
+    currentRole = data.role;
+
+    console.log("Current business role:", currentRole);
+
+    return true;
+}
 // ==========================================
 // GENERAL HELPERS
 // ==========================================
@@ -433,9 +468,16 @@ async function switchBusiness(businessId) {
 
         currentBusiness = selectedBusiness;
 
-        updateBusinessDisplay();
+updateBusinessDisplay();
 
-        await loadAllCloudData();
+// Load the role for the newly selected business.
+const roleLoaded = await loadCurrentBusinessRole();
+
+if (!roleLoaded) {
+    throw new Error("You do not have access to this business.");
+}
+
+await loadAllCloudData();
 
         if (!cloudReady) {
             throw new Error("Unable to load the selected business data.");
@@ -2548,9 +2590,17 @@ async function initializeAuthenticatedUser(user, preferredBusinessId = null) {
         );
 
         updateBusinessDisplay();
-        renderBusinessSwitcher();
+renderBusinessSwitcher();
 
-        await loadAllCloudData();
+// Load the role assigned to this business account.
+const roleLoaded = await loadCurrentBusinessRole();
+
+if (!roleLoaded) {
+    showUnauthenticatedApp();
+    return;
+}
+
+await loadAllCloudData();
 
         if (!cloudReady) {
             showUnauthenticatedApp();
